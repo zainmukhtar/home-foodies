@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fontcss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")   
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/js")
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core componets
+            Layout.init(); // init layout
+            Demo.init(); // init demo features
+            Index.init();
+        });
+    </script>
+</head>
+<body class="page-md page-quick-sidebar-over-content">
+
+    <!-- BEGIN CONTENT -->
+    @RenderBody()
+    <div class="clearfix">
+    </div>
+    <!-- END CONTENT -->
+    <!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+        <div class="page-footer-inner">
+            2015 &copy; Home Foodies.
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+    </div>
+    <!-- END FOOTER -->
+  </body>
+</html>

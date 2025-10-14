@@ -1,0 +1,216 @@
+/* here you can put your own css to customize and override the theme */
+
+/***
+Rounded Portlets
+***/
+/*
+.portlet {
+	border-radius: 4px !important;
+}
+
+.portlet .portlet-title {
+	border-radius: 4px 4px 0px 0px !important;
+}
+
+.portlet .portlet-body,
+.portlet .portlet-body .form-actions  {
+	border-radius: 0px 0px 4px 4px !important;
+}
+*/
+
+/*
+Change Quick Sidebar Width
+*/
+
+/*
+.page-quick-sidebar-wrapper {
+  right: -370px;
+  width: 370px;
+}
+
+.page-quick-sidebar-open.page-quick-sidebar-push-content .page-sidebar-wrapper {
+  margin-left: -370px;
+}
+
+.page-quick-sidebar-open.page-quick-sidebar-push-content .page-footer {
+  margin-right: 370px;
+  margin-left: -370px;
+}
+
+.page-sidebar-reversed.page-quick-sidebar-open.page-quick-sidebar-push-content .page-sidebar-wrapper {
+  margin-right: 370px;
+}
+
+.page-quick-sidebar-open.page-quick-sidebar-push-content.page-quick-sidebar-full-height .page-header {
+  margin-left: -370px;
+}
+
+.page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-list {
+  width: 370px !important;
+}
+
+.page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-item {
+  width: 370px !important;
+  margin-left: 370px;
+}
+
+.page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-content-item-shown .page-quick-sidebar-list {
+  margin-left: -370px;
+}
+*/
+
+
+header {
+  
+
+}
+
+.page-header.navbar-new {
+    width: 100%;
+    min-width: 
+    padding: 0 20px 0 20px !important;
+    margin: 0;
+    border: 0px;
+    padding: 0px;
+    box-shadow: none;
+    height: 450px;
+    min-height: 450px;
+    filter: none;
+}
+
+
+ .banner {
+    background-image: url("../img/header.jpg") !important;
+    height: 400px;
+    position: relative;
+}
+
+.banner > img{
+    width: 100%;
+    height: auto;
+}
+.banner > .content{
+    position: absolute;
+    bottom: 0;
+    overflow: auto;
+}
+
+.header > img{
+    width: 100%;
+    height: auto;
+}
+.header > .content{
+    position: absolute;
+    bottom: 0;
+    overflow: auto;
+}
+
+.form-group-search {
+
+}
+
+.row-menu {
+  
+}
+
+
+  .form-control-search {
+    display: block;
+    width: 100%;
+    height: 42px;
+    padding-left: 35px !important;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
+.input-icon-search > i {
+    color: #ccc;
+    display: block !important;
+    position: absolute;
+    margin: 13px 2px 4px 10px !important;
+    z-index: 3;
+    width: 16px;
+    font-size: 25px !important;
+    text-align: center;
+}
+
+.navbar-default-new {
+    background-color: none !important;
+    border-color: none !important;
+}
+
+.button-menu {
+    height: 40px;
+    width: 100px;
+    margin-left: 5px;
+    margin-right: 15px;
+    margin-top: 10px;
+    border-radius: 6px !important;
+}
+
+.custom-toggle {
+    background-color: black !important;
+    border: 0px solid transparent;
+}
+
+
+
+.responsive-menu {
+    border-radius: 3px;
+    border-color: white !important;
+    background-color: white !important;
+}
+
+.search-button {
+  margin-left: 7px !important;
+  height: 42px !important;
+}
+
+.search-style {
+    background-color: #424242 !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin-top: 150px;
+    border-radius: 7px !important;
+}
+
+.search-heading {
+    font-size: 16px;
+    color: white;
+}
+
+.orange-btn {
+  background-color: #FF5722 !important;
+  color: #FFFFFF !important;
+}
+
+.font-input {
+    font-size: 16px !important;
+}
+
+
+
+@media (min-width: 768px) {
+    .modal-login-resized {
+        margin: 30px auto;
+    }
+}
+
+
+.user-image {
+    margin-left: 30px !important;
+    margin-top: -18px !important;
+}

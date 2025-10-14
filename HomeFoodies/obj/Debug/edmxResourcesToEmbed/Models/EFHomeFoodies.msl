@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HomeFoodiesModelStoreContainer" CdmEntityContainer="HomeFoodiesEntities">
+    <FunctionImportMapping FunctionImportName="sp_Supplier_Delete" FunctionName="HomeFoodiesModel.Store.sp_Supplier_Delete" />
+    <FunctionImportMapping FunctionImportName="sp_Supplier_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_Supplier_InsertUpdate" />
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ItemCategoryDesc" ColumnName="ItemCategoryDesc" />
+          <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+          <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+          <ScalarProperty Name="CutomerName" ColumnName="CutomerName" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Items">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.Item">
+        <MappingFragment StoreEntitySet="Item">
+          <ScalarProperty Name="MaxOrderLimit" ColumnName="MaxOrderLimit" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
+          <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LoginUsers">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.LoginUser">
+        <MappingFragment StoreEntitySet="LoginUser">
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+          <ScalarProperty Name="IsSupplierConfirmed" ColumnName="IsSupplierConfirmed" />
+          <ScalarProperty Name="IsCustomerConfirmed" ColumnName="IsCustomerConfirmed" />
+          <ScalarProperty Name="CommisionPercentage" ColumnName="CommisionPercentage" />
+          <ScalarProperty Name="TotalOrderAmount" ColumnName="TotalOrderAmount" />
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetail">
+          <ScalarProperty Name="OrderPrice" ColumnName="OrderPrice" />
+          <ScalarProperty Name="OrderQty" ColumnName="OrderQty" />
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="DetailID" ColumnName="DetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatusCodes">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.StatusCode">
+        <MappingFragment StoreEntitySet="StatusCodes">
+          <ScalarProperty Name="StatusDescription" ColumnName="StatusDescription" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.Supplier">
+        <MappingFragment StoreEntitySet="Supplier">
+          <ScalarProperty Name="SupplierEmail" ColumnName="SupplierEmail" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="LinkedLoginUserID" ColumnName="LinkedLoginUserID" />
+          <ScalarProperty Name="SupplierCity" ColumnName="SupplierCity" />
+          <ScalarProperty Name="SupplierRegion" ColumnName="SupplierRegion" />
+          <ScalarProperty Name="SupplierAddress" ColumnName="SupplierAddress" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UOMTypes">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.UOMType">
+        <MappingFragment StoreEntitySet="UOMType">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="IsDecimal" ColumnName="IsDecimal" />
+          <ScalarProperty Name="UOMTypeDescription" ColumnName="UOMTypeDescription" />
+          <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_LoginUserGetLogin" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_Login">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.LoginUserGetLogin">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

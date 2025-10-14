@@ -1,0 +1,229 @@
+﻿@model HomeFoodies.Models.Supplier
+@{
+    Layout = "~/Views/Client/Shared/_Layout.cshtml";
+}
+
+<div class="row-fluid banner">
+
+    <nav class="navbar navbar-default-new">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed custom-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar responsive-menu"></span>
+                    <span class="icon-bar responsive-menu"></span>
+                    <span class="icon-bar responsive-menu"></span>
+                </button>
+                <div class="page-logo">
+                    <a href="index.html">
+                        <img src="~/img/logo.png" alt="logo" class="logo-default" />
+                    </a>
+                    <div class="menu-toggler sidebar-toggler hide"></div>
+                </div>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><button type="button" data-toggle="modal" class="btn btn-warning button-menu" href="#login"><span class="md-click-circle md-click-animate"></span>Login</button></li>
+                    <li>
+                        <button type="button" data-toggle="modal" class="btn orange-btn button-menu" href="#responsive"><span class="md-click-circle md-click-animate"></span>Sign Up</button>
+                        <button type="button" data-toggle="modal" class="btn orange-btn button-menu" href="#responsive-2" id="btnSuccess"><span class="md-click-circle md-click-animate"></span>Sign Up</button>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="page-container">
+        <div class="row-menu">
+
+            <div class="col-lg-3">
+            </div>
+
+            <div class="col-lg-6">
+                <div class="search-style">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label><div class="search-heading"></div></label>
+                            <div class="input-icon-search">
+                                <i class="fa fa-map-marker icon-position"></i>
+                                <div class="input-group">
+                                    <input type="text" class="form-control-search" placeholder="Enter Your Area" size="100">
+                                    <span class="input-group-btn">
+                                        <button class="btn search-button blue-madison orange-btn" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix">
+</div>
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+
+</div>
+<!-- END CONTAINER -->
+<!-- Modal Windows-->
+<!-- Signup Modal-->
+<div id="responsive" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Sign Up</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller" style="height:450px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="portlet-body form">
+                        @using (Html.BeginForm("Create", "Suppliers"))
+                        {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="form-body">
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input has-warning">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-user"></i>
+                                            </span>
+                                            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "has-error" })
+                                            <label for="form_control_1 font-input" class="font-input">Full Name</label>
+                                            <span class="help-block">e.g. Zain Mukhtar</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input has-warning">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-envelope"></i>
+                                            </span>
+                                            @Html.EditorFor(model => model.SupplierEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                            <label for="form_control_1 font-input" class="font-input">Email</label>
+                                            <span class="help-block">e.g. example@gmail.com</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input has-warning ">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-cursor"></i>
+                                            </span>
+                                            @Html.EditorFor(model => model.SupplierRegion, new { htmlAttributes = new { @class = "form-control" } })
+                                            <label for="form_control_1" class="font-input">Region</label>
+                                            <span class="help-block">e.g. Johar Town</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input has-warning">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-screen-smartphone"></i>
+                                            </span>
+                                            @Html.EditorFor(model => model.ContactNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                            <label for="form_control_1" class="font-input">Mobile Number</label>
+                                            <span class="help-block">e.g. 0321-9430654</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-md-line-input has-warning">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-basket"></i>
+                                            </span>
+                                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                                            <label for="form_control_1" class="font-input">Kitchen Name</label>
+                                            <span class="help-block">e.g. Ramsha's Kitchen</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input has-warning">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-home"></i>
+                                            </span>
+                                            @Html.EditorFor(model => model.SupplierAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            <label for="form_control_1" class="font-input">Address</label>
+                                            <span class="help-block">e.g. 303 - G-3</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-md-line-input has-warning">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-pointer"></i>
+                                            </span>
+                                            @Html.DropDownListFor(model => model.SupplierCity, new List<SelectListItem>
+                                             {
+                                                new SelectListItem{ Text="", Value = "" },
+                                                new SelectListItem{ Text="Lahore", Value = "Lahore" }
+                                             },
+                                            htmlAttributes: new { @class = "form-control" })
+                                            <label for="form_control_1" class="font-input">Select Your City</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox" id="checkbox9" class="md-check">
+                                        <label for="checkbox9" class="font-input">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            I Agree to the Terms &Aacute; Conditions.
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn default">Close</button>
+                            <input type="submit" value="Create" class="btn btn-warning" />
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="responsive-2" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Sign Up</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller" style="height:650px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="portlet-body form">
+                        Hurray!!!!!!!!!!!!!!!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  End Signup Modal-->
+<!--  End Modal Windows-->
+
+<div id="login" class="modal fade" tabindex="-1" aria-hidden="true">
+    @Html.Partial("~/Views/Client/Shared/_LoginPartial.cshtml")
+</div>
+@if (ViewBag.val == "sent")
+{
+    <script type="text/javascript">
+        debugger;
+        $('#btnSuccess').click();
+        $('#responsive-2').modal('show');
+    </script>
+}

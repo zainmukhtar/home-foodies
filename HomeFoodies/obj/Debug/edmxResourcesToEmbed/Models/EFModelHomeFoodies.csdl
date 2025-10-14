@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HomeFoodiesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="ItemCategoryID" />
+    </Key>
+    <Property Name="ItemCategoryID" Type="Int32" Nullable="false" />
+    <Property Name="ItemCategoryDesc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Items" Relationship="Self.FK_Item_Category" FromRole="Category" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CutomerName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CustomerAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CustomerPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Name="ItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemCategoryID" Type="Int32" Nullable="false" />
+    <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ItemDescription" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="ItemPrice" Type="Double" Nullable="false" />
+    <Property Name="UOMTypeID" Type="Int32" Nullable="false" />
+    <Property Name="SupplierID" Type="Int32" Nullable="false" />
+    <Property Name="MaxOrderLimit" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Item_Category" FromRole="Item" ToRole="Category" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK_Item_Supplier" FromRole="Item" ToRole="Supplier" />
+    <NavigationProperty Name="UOMType" Relationship="Self.FK_Item_UOMType" FromRole="Item" ToRole="UOMType" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Item" FromRole="Item" ToRole="OrderDetail" />
+    <NavigationProperty Name="Supplier1" Relationship="HomeFoodiesModel.FK_Item_Supplier1" FromRole="Item" ToRole="Supplier" />
+  </EntityType>
+  <EntityType Name="LoginUser">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CurrentStatusID" Type="Int32" Nullable="false" />
+    <Property Name="VerificationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="StatusCode" Relationship="Self.FK_LoginUser_StatusCodes" FromRole="LoginUser" ToRole="StatusCodes" />
+    <NavigationProperty Name="Suppliers" Relationship="Self.FK_Supplier_LoginUser" FromRole="LoginUser" ToRole="Supplier" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="CurrentStatusID" Type="Int32" Nullable="false" />
+    <Property Name="TotalOrderAmount" Type="Double" Nullable="false" />
+    <Property Name="CommisionPercentage" Type="Double" Nullable="false" />
+    <Property Name="IsCustomerConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="IsSupplierConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="VerificationCode" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
+    <NavigationProperty Name="StatusCode" Relationship="Self.FK_Order_StatusCodes" FromRole="Order" ToRole="StatusCodes" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="DetailID" />
+    </Key>
+    <Property Name="DetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="ItemID" Type="Int32" Nullable="false" />
+    <Property Name="OrderQty" Type="Double" Nullable="false" />
+    <Property Name="OrderPrice" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Item" Relationship="Self.FK_OrderDetail_Item" FromRole="OrderDetail" ToRole="Item" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="StatusCode">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+    <Property Name="StatusDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="LoginUsers" Relationship="Self.FK_LoginUser_StatusCodes" FromRole="StatusCodes" ToRole="LoginUser" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Order_StatusCodes" FromRole="StatusCodes" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SupplierAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SupplierRegion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SupplierCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LinkedLoginUserID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Items" Relationship="Self.FK_Item_Supplier" FromRole="Supplier" ToRole="Item" />
+    <NavigationProperty Name="LoginUser" Relationship="Self.FK_Supplier_LoginUser" FromRole="Supplier" ToRole="LoginUser" />
+    <NavigationProperty Name="Items1" Relationship="HomeFoodiesModel.FK_Item_Supplier1" FromRole="Supplier" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="UOMType">
+    <Key>
+      <PropertyRef Name="UOMTypeID" />
+    </Key>
+    <Property Name="UOMTypeID" Type="Int32" Nullable="false" />
+    <Property Name="UOMTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IsDecimal" Type="Boolean" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Items" Relationship="Self.FK_Item_UOMType" FromRole="UOMType" ToRole="Item" />
+  </EntityType>
+  <Association Name="FK_Item_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="ItemCategoryID" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="ItemCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier" />
+      <Dependent Role="Item" />
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_UOMType">
+    <End Role="UOMType" Type="Self.UOMType" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UOMType">
+        <PropertyRef Name="UOMTypeID" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="UOMTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ItemID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoginUser_StatusCodes">
+    <End Role="StatusCodes" Type="Self.StatusCode" Multiplicity="1" />
+    <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusCodes">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="LoginUser">
+        <PropertyRef Name="CurrentStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Supplier_LoginUser">
+    <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="1" />
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoginUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Supplier">
+        <PropertyRef Name="LinkedLoginUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_StatusCodes">
+    <End Role="StatusCodes" Type="Self.StatusCode" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusCodes">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CurrentStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HomeFoodies" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Items" EntityType="Self.Item" />
+    <EntitySet Name="LoginUsers" EntityType="Self.LoginUser" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
+    <EntitySet Name="StatusCodes" EntityType="Self.StatusCode" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="UOMTypes" EntityType="Self.UOMType" />
+    <AssociationSet Name="FK_Item_Category" Association="Self.FK_Item_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_Supplier" Association="Self.FK_Item_Supplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_UOMType" Association="Self.FK_Item_UOMType">
+      <End Role="UOMType" EntitySet="UOMTypes" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Item" Association="Self.FK_OrderDetail_Item">
+      <End Role="Item" EntitySet="Items" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoginUser_StatusCodes" Association="Self.FK_LoginUser_StatusCodes">
+      <End Role="StatusCodes" EntitySet="StatusCodes" />
+      <End Role="LoginUser" EntitySet="LoginUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Supplier_LoginUser" Association="Self.FK_Supplier_LoginUser">
+      <End Role="LoginUser" EntitySet="LoginUsers" />
+      <End Role="Supplier" EntitySet="Suppliers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_StatusCodes" Association="Self.FK_Order_StatusCodes">
+      <End Role="StatusCodes" EntitySet="StatusCodes" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <FunctionImport Name="sp_Supplier_Delete">
+      <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Supplier_Get_All" ReturnType="Collection(HomeFoodiesModel.sp_Supplier_Get_All_Result)" />
+    <FunctionImport Name="sp_Supplier_Get_ID" ReturnType="Collection(HomeFoodiesModel.sp_Supplier_Get_ID_Result)">
+      <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Supplier_InsertUpdate" ReturnType="Collection(Decimal)">
+      <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+      <Parameter Name="FullName" Mode="In" Type="String" />
+      <Parameter Name="CompanyName" Mode="In" Type="String" />
+      <Parameter Name="SupplierAddress" Mode="In" Type="String" />
+      <Parameter Name="SupplierRegion" Mode="In" Type="String" />
+      <Parameter Name="SupplierCity" Mode="In" Type="String" />
+      <Parameter Name="LinkedLoginUserID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <AssociationSet Name="FK_Item_Supplier1" Association="HomeFoodiesModel.FK_Item_Supplier1">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_Supplier_Get_All_Result">
+    <Property Type="Int32" Name="SupplierID" Nullable="false" />
+    <Property Type="String" Name="FullName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="SupplierAddress" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="SupplierRegion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="SupplierCity" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="LinkedLoginUserID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_Supplier_Get_ID_Result">
+    <Property Type="Int32" Name="SupplierID" Nullable="false" />
+    <Property Type="String" Name="FullName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="SupplierAddress" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="SupplierRegion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="SupplierCity" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="LinkedLoginUserID" Nullable="false" />
+  </ComplexType>
+  <Association Name="FK_Item_Supplier1">
+    <End Type="HomeFoodiesModel.Supplier" Role="Supplier" Multiplicity="1" />
+    <End Type="HomeFoodiesModel.Item" Role="Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

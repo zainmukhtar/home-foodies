@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HomeFoodiesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="ItemCategoryID" />
+    </Key>
+    <Property Name="ItemCategoryID" Type="int" Nullable="false" />
+    <Property Name="ItemCategoryDesc" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CutomerName" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="CustomerAddress" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="CustomerPhone" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ItemID" />
+    </Key>
+    <Property Name="ItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ItemCategoryID" Type="int" Nullable="false" />
+    <Property Name="ItemName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ItemDescription" Type="varchar" MaxLength="1500" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="ItemPrice" Type="float" Nullable="false" />
+    <Property Name="UOMTypeID" Type="int" Nullable="false" />
+    <Property Name="SupplierID" Type="int" Nullable="false" />
+    <Property Name="MaxOrderLimit" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LoginUser">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserEmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserPassword" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CurrentStatusID" Type="int" Nullable="false" />
+    <Property Name="VerificationCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="OrderDate" Type="datetime" Nullable="false" />
+    <Property Name="CustomerID" Type="int" Nullable="false" />
+    <Property Name="CurrentStatusID" Type="int" Nullable="false" />
+    <Property Name="TotalOrderAmount" Type="float" Nullable="false" />
+    <Property Name="CommisionPercentage" Type="float" Nullable="false" />
+    <Property Name="IsCustomerConfirmed" Type="bit" Nullable="false" />
+    <Property Name="IsSupplierConfirmed" Type="bit" Nullable="false" />
+    <Property Name="VerificationCode" Type="varchar" MaxLength="6" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="DetailID" />
+    </Key>
+    <Property Name="DetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderID" Type="int" Nullable="false" />
+    <Property Name="ItemID" Type="int" Nullable="false" />
+    <Property Name="OrderQty" Type="float" Nullable="false" />
+    <Property Name="OrderPrice" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StatusCodes">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="int" Nullable="false" />
+    <Property Name="StatusDescription" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SupplierID" />
+    </Key>
+    <Property Name="SupplierID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="SupplierAddress" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="SupplierRegion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SupplierCity" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LinkedLoginUserID" Type="int" />
+    <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+    <Property Name="SupplierEmail" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UOMType">
+    <Key>
+      <PropertyRef Name="UOMTypeID" />
+    </Key>
+    <Property Name="UOMTypeID" Type="int" Nullable="false" />
+    <Property Name="UOMTypeDescription" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDecimal" Type="bit" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Item_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="ItemCategoryID" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="ItemCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="SupplierID" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="SupplierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_UOMType">
+    <End Role="UOMType" Type="Self.UOMType" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UOMType">
+        <PropertyRef Name="UOMTypeID" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="UOMTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoginUser_StatusCodes">
+    <End Role="StatusCodes" Type="Self.StatusCodes" Multiplicity="1" />
+    <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusCodes">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="LoginUser">
+        <PropertyRef Name="CurrentStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_StatusCodes">
+    <End Role="StatusCodes" Type="Self.StatusCodes" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StatusCodes">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CurrentStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ItemID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="sp_LoginUser_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserEmail" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Supplier_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Supplier_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierID" Type="int" Mode="In" />
+    <Parameter Name="FullName" Type="varchar" Mode="In" />
+    <Parameter Name="CompanyName" Type="varchar" Mode="In" />
+    <Parameter Name="SupplierAddress" Type="varchar" Mode="In" />
+    <Parameter Name="SupplierRegion" Type="varchar" Mode="In" />
+    <Parameter Name="SupplierCity" Type="varchar" Mode="In" />
+    <Parameter Name="LinkedLoginUserID" Type="int" Mode="In" />
+    <Parameter Name="ContactNumber" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="HomeFoodiesModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoginUser" EntityType="Self.LoginUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StatusCodes" EntityType="Self.StatusCodes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UOMType" EntityType="Self.UOMType" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Item_Category" Association="Self.FK_Item_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Item" EntitySet="Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_Supplier" Association="Self.FK_Item_Supplier">
+      <End Role="Supplier" EntitySet="Supplier" />
+      <End Role="Item" EntitySet="Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_UOMType" Association="Self.FK_Item_UOMType">
+      <End Role="UOMType" EntitySet="UOMType" />
+      <End Role="Item" EntitySet="Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoginUser_StatusCodes" Association="Self.FK_LoginUser_StatusCodes">
+      <End Role="StatusCodes" EntitySet="StatusCodes" />
+      <End Role="LoginUser" EntitySet="LoginUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Customer" Association="Self.FK_Order_Customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_StatusCodes" Association="Self.FK_Order_StatusCodes">
+      <End Role="StatusCodes" EntitySet="StatusCodes" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Item" Association="Self.FK_OrderDetail_Item">
+      <End Role="Item" EntitySet="Item" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
