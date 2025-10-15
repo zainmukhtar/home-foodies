@@ -25,7 +25,7 @@ namespace HomeFoodies.Models
         public string SupplierAddress { get; set; }
         public string SupplierRegion { get; set; }
         public string SupplierCity { get; set; }
-        public Nullable<int> LinkedLoginUserID { get; set; }
+        public int LinkedLoginUserID { get; set; }
         public string ContactNumber { get; set; }
         public string SupplierEmail { get; set; }
     

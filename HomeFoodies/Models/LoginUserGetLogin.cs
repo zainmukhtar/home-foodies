@@ -20,5 +20,6 @@ namespace HomeFoodies.Models
         public string VerificationCode { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string FullName { get; set; }
+        public Nullable<int> SupplierID { get; set; }
     }
 }

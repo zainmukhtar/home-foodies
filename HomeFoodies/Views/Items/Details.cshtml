@@ -1,0 +1,91 @@
+﻿@model HomeFoodies.Models.Item
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Admin/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Item</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxOrderLimit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxOrderLimit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImagePath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.ItemCategoryDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.ItemCategoryDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Supplier.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Supplier.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UOMType.UOMTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UOMType.UOMTypeDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

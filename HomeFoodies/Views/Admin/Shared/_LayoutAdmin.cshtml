@@ -12,7 +12,16 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/other")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sample_1').dataTable();
+
+            $(":file").filestyle({ input: false });
+        });
+    </script>
 
 </head>
 
@@ -23,8 +32,8 @@
         <div class="page-header-inner">
             <!-- BEGIN LOGO -->
             <div class="page-logo">
-                <a href="@Url.Action(" index", "Home" )">
-                    <img src="~/img/logo.png" alt="logo" class="logo-default" />
+                <a href="@Url.Action("index","home")">
+                    <img src="~/img/logo_orange.png" alt="logo" class="logo-default" />
                 </a>
                 <div class="menu-toggler sidebar-toggler">
                     <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -435,9 +444,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                <a href="javascript:document.getElementById('logoutForm').submit()">
-                                    <i class="icon-key"></i> Log Out
-                                </a>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                        <i class="icon-key"></i> Log Out
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -475,40 +484,58 @@
                             <span class="title">Dashboard</span>
                         </a>
                     </li>
+                    @if (User.Identity.GetUserId() == "1")
+                    {
+                        <li>
+                            <a href="@Url.Action("index","suppliers")">
+                                <i class="icon-user"></i>
+                                <span class="title">Suppliers</span>
+                            </a>
+                        </li>
+                    }
                     <li>
-                        <a href="@Url.Action("index","suppliers")">
-                            <i class="icon-user"></i>
-                            <span class="title">Suppliers</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
+                        <a href="@Url.Action("index","orders")">
                             <i class="icon-basket"></i>
                             <span class="title">Orders</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:;">
+                        <a href="@Url.Action("index","items")">
                             <i class="icon-grid"></i>
                             <span class="title">Products</span>
                         </a>
                     </li>
+                    @if (User.Identity.GetUserId() == "1")
+                    {
+                        <li>
+                            <a href="@Url.Action("index","uomtypes")">
+                                <i class="icon-grid"></i>
+                                <span class="title">UOM Types</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.Identity.GetUserId() == "1")
+                    {
+                        <li>
+                            <a href="@Url.Action("index","customers")">
+                                <i class="icon-users"></i>
+                                <span class="title">Customers</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.Identity.GetUserId() == "1")
+                    {
+                        <li>
+                            <a href="@Url.Action("index","categories")">
+                                <i class="icon-puzzle"></i>
+                                <span class="title">Category</span>
+                            </a>
+                        </li>
+                    }
                     <li>
-                        <a href="javascript:;">
-                            <i class="icon-users"></i>
-                            <span class="title">Customers</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
+                        <a href="@Url.Action("OrderCommission", "Orders")">
                             <i class="icon-puzzle"></i>
-                            <span class="title">Category</span>
-                        </a>
-                    </li>
-                    <li class="last ">
-                        <a href="javascript:;">
-                            <i class="icon-pointer"></i>
-                            <span class="title">Maps</span>
+                            <span class="title">Commission</span>
                         </a>
                     </li>
                 </ul>
@@ -530,15 +557,12 @@
     <!-- BEGIN FOOTER -->
     <div class="page-footer">
         <div class="page-footer-inner">
-            2014 &copy; Metronic by keenthemes. <a href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" title="Purchase Metronic just for 27$ and get lifetime updates for free" target="_blank">Purchase Metronic!</a>
+            2016 &copy; Home Foodies
         </div>
         <div class="scroll-to-top">
             <i class="icon-arrow-up"></i>
         </div>
     </div>
-
-    @Scripts.Render("~/Scripts/js")
-    @Scripts.Render("~/bundles/bootstrap")
 
     <script>
         jQuery(document).ready(function () {
@@ -547,8 +571,10 @@
             Demo.init(); // init demo features
             Index.init(); // init index page
             Tasks.initDashboardWidget(); // init tash dashboard widget
+            TableManaged.init();
         });
     </script>
+
 </body>
 <!-- END BODY -->
 </html>

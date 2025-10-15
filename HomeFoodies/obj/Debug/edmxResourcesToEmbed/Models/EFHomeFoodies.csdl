@@ -13,6 +13,90 @@
       <Parameter Name="SupplierCity" Mode="In" Type="String" />
       <Parameter Name="LinkedLoginUserID" Mode="In" Type="Int32" />
       <Parameter Name="ContactNumber" Mode="In" Type="String" />
+      <Parameter Name="SupplierEmail" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_LoginUserGetLogin" ReturnType="Collection(HomeFoodiesModel.LoginUserGetLogin)">
+      <Parameter Name="UserEmail" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_LoginUserVerifyCode" ReturnType="Collection(HomeFoodiesModel.LoginUserVerifyCode)">
+      <Parameter Name="VerificationCode" Mode="In" Type="String" />
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_LoginUserSetPassword">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="UserPassword" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Category_Delete">
+      <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Category_InsertUpdate" ReturnType="Collection(Decimal)">
+      <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+      <Parameter Name="ItemCategoryDesc" Mode="In" Type="String" />
+      <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Item_Delete">
+      <Parameter Name="ItemID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Item_InsertUpdate" ReturnType="Collection(Decimal)">
+      <Parameter Name="ItemID" Mode="In" Type="Int32" />
+      <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+      <Parameter Name="ItemName" Mode="In" Type="String" />
+      <Parameter Name="ItemDescription" Mode="In" Type="String" />
+      <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+      <Parameter Name="ItemPrice" Mode="In" Type="Double" />
+      <Parameter Name="UOMTypeID" Mode="In" Type="Int32" />
+      <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+      <Parameter Name="MaxOrderLimit" Mode="In" Type="Double" />
+      <Parameter Name="ImagePath" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_UOMType_Delete">
+      <Parameter Name="UOMTypeID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_UOMType_InsertUpdate" ReturnType="Collection(Decimal)">
+      <Parameter Name="UOMTypeID" Mode="In" Type="Int32" />
+      <Parameter Name="UOMTypeDescription" Mode="In" Type="String" />
+      <Parameter Name="IsDecimal" Mode="In" Type="Boolean" />
+      <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="sp_LoginUser_Delete">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_LoginUser_InsertUpdate">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="UserEmail" Mode="In" Type="String" />
+      <Parameter Name="UserPassword" Mode="In" Type="String" />
+      <Parameter Name="CurrentStatusID" Mode="In" Type="Int32" />
+      <Parameter Name="VerificationCode" Mode="In" Type="String" />
+      <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="sp_LoginUser_UpdateStatus">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="CurrentStatusID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Products_Search" ReturnType="Collection(HomeFoodiesModel.ProductsSearch)">
+      <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+      <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+      <Parameter Name="SupplierRegion" Mode="In" Type="String" />
+      <Parameter Name="ItemName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Products_GetItemCategories" ReturnType="Collection(HomeFoodiesModel.ProductsCategories)">
+      <Parameter Name="SupplierRegion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Order_GetMaxOrerNo" ReturnType="Collection(String)" />
+    <FunctionImport Name="SP_Customer_GetByPhone" ReturnType="Collection(HomeFoodiesModel.CustomerGetByPhone)">
+      <Parameter Name="CustomerPhone" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Products_GetLatest" ReturnType="Collection(HomeFoodiesModel.LatestItems)" />
+    <FunctionImport Name="SP_Order_VerifyCode" ReturnType="Collection(HomeFoodiesModel.OrderVerifyCode)">
+      <Parameter Name="VerificationCode" Mode="In" Type="String" />
+      <Parameter Name="OrderNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Order_UpdateStatus">
+      <Parameter Name="CurrentStatuID" Mode="In" Type="Int32" />
+      <Parameter Name="OrderID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Orders_Commission" ReturnType="Collection(HomeFoodiesModel.OrdersCommission)">
+      <Parameter Name="SupplierID" Mode="In" Type="Int32" />
     </FunctionImport>
     <EntitySet Name="Categories" EntityType="HomeFoodiesModel.Category" />
     <EntitySet Name="Customers" EntityType="HomeFoodiesModel.Customer" />
@@ -22,6 +106,7 @@
     <EntitySet Name="OrderDetails" EntityType="HomeFoodiesModel.OrderDetail" />
     <EntitySet Name="StatusCodes" EntityType="HomeFoodiesModel.StatusCode" />
     <EntitySet Name="Suppliers" EntityType="HomeFoodiesModel.Supplier" />
+    <EntitySet Name="sysdiagrams" EntityType="HomeFoodiesModel.sysdiagram" />
     <EntitySet Name="UOMTypes" EntityType="HomeFoodiesModel.UOMType" />
     <AssociationSet Name="FK_Item_Category" Association="HomeFoodiesModel.FK_Item_Category">
       <End Role="Category" EntitySet="Categories" />
@@ -59,15 +144,89 @@
       <End Role="Order" EntitySet="Orders" />
       <End Role="OrderDetail" EntitySet="OrderDetails" />
     </AssociationSet>
-    <FunctionImport Name="SP_LoginUserGetLogin" ReturnType="Collection(HomeFoodiesModel.LoginUserGetLogin)">
-      <Parameter Name="UserEmail" Mode="In" Type="String" />
-    </FunctionImport>
   </EntityContainer>
+  <ComplexType Name="LoginUserGetLogin">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="String" Name="UserEmail" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UserPassword" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
+    <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="10" />
+    <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="150" />
+    <Property Type="Int32" Name="SupplierID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="LoginUserVerifyCode">
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="String" Name="UserEmail" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UserPassword" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
+    <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="10" />
+    <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="ProductsSearch">
+    <Property Type="Int32" Name="ItemID" Nullable="false" />
+    <Property Type="String" Name="ItemName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="ItemDescription" Nullable="false" MaxLength="1500" />
+    <Property Type="Double" Name="ItemPrice" Nullable="false" />
+    <Property Type="Double" Name="MaxOrderLimit" Nullable="false" />
+    <Property Type="String" Name="ImagePath" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="ItemCategoryID" Nullable="false" />
+    <Property Type="Boolean" Name="IsActive" Nullable="false" />
+    <Property Type="Int32" Name="SupplierID" Nullable="false" />
+    <Property Type="Int32" Name="UOMTypeID" Nullable="false" />
+    <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="ItemCategoryDesc" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="UOMTypeDescription" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsDecimal" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ProductsCategories">
+    <Property Type="Int32" Name="ItemCategoryID" Nullable="true" />
+    <Property Type="String" Name="ItemCategoryDesc" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SupplierRegion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="CustomerGetByPhone">
+    <Property Type="Int32" Name="CustomerID" Nullable="false" />
+    <Property Type="String" Name="CutomerName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="CustomerAddress" Nullable="false" MaxLength="250" />
+    <Property Type="String" Name="CustomerPhone" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="LatestItems">
+    <Property Type="Int32" Name="ItemID" Nullable="false" />
+    <Property Type="Int32" Name="ItemCategoryID" Nullable="false" />
+    <Property Type="String" Name="ItemName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="ItemDescription" Nullable="false" MaxLength="1500" />
+    <Property Type="Boolean" Name="IsActive" Nullable="false" />
+    <Property Type="Double" Name="ItemPrice" Nullable="false" />
+    <Property Type="Int32" Name="UOMTypeID" Nullable="false" />
+    <Property Type="Int32" Name="SupplierID" Nullable="false" />
+    <Property Type="Double" Name="MaxOrderLimit" Nullable="false" />
+    <Property Type="String" Name="ImagePath" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="OrderVerifyCode">
+    <Property Type="Int32" Name="OrderID" Nullable="false" />
+    <Property Type="String" Name="OrderNo" Nullable="false" MaxLength="15" />
+    <Property Type="DateTime" Name="OrderDate" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="CustomerID" Nullable="false" />
+    <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
+    <Property Type="Double" Name="TotalOrderAmount" Nullable="false" />
+    <Property Type="Double" Name="CommisionPercentage" Nullable="false" />
+    <Property Type="Boolean" Name="IsCustomerConfirmed" Nullable="false" />
+    <Property Type="Boolean" Name="IsSupplierConfirmed" Nullable="false" />
+    <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="6" />
+  </ComplexType>
+  <ComplexType Name="OrdersCommission">
+    <Property Type="String" Name="OrderNo" Nullable="false" MaxLength="15" />
+    <Property Type="Double" Name="CommisionPercentage" Nullable="false" />
+    <Property Type="DateTime" Name="OrderDate" Nullable="false" Precision="23" />
+    <Property Type="Double" Name="TotalOrderAmount" Nullable="false" />
+    <Property Type="Decimal" Name="SellerCost" Nullable="false" Precision="1" Scale="1" />
+    <Property Type="Decimal" Name="CompanyCommission" Nullable="false" Precision="1" Scale="1" />
+  </ComplexType>
   <EntityType Name="Category">
     <Key>
       <PropertyRef Name="ItemCategoryID" />
     </Key>
-    <Property Name="ItemCategoryID" Type="Int32" Nullable="false" />
+    <Property Name="ItemCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ItemCategoryDesc" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Items" Relationship="HomeFoodiesModel.FK_Item_Category" FromRole="Category" ToRole="Item" />
@@ -95,6 +254,7 @@
     <Property Name="UOMTypeID" Type="Int32" Nullable="false" />
     <Property Name="SupplierID" Type="Int32" Nullable="false" />
     <Property Name="MaxOrderLimit" Type="Double" Nullable="false" />
+    <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Category" Relationship="HomeFoodiesModel.FK_Item_Category" FromRole="Item" ToRole="Category" />
     <NavigationProperty Name="Supplier" Relationship="HomeFoodiesModel.FK_Item_Supplier" FromRole="Item" ToRole="Supplier" />
     <NavigationProperty Name="UOMType" Relationship="HomeFoodiesModel.FK_Item_UOMType" FromRole="Item" ToRole="UOMType" />
@@ -162,17 +322,27 @@
     <Property Name="SupplierAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
     <Property Name="SupplierRegion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="SupplierCity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="LinkedLoginUserID" Type="Int32" />
-    <NavigationProperty Name="Items" Relationship="HomeFoodiesModel.FK_Item_Supplier" FromRole="Supplier" ToRole="Item" />
-    <NavigationProperty Name="LoginUser" Relationship="HomeFoodiesModel.FK_Supplier_LoginUser" FromRole="Supplier" ToRole="LoginUser" />
+    <Property Name="LinkedLoginUserID" Type="Int32" Nullable="false" />
     <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="SupplierEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Items" Relationship="HomeFoodiesModel.FK_Item_Supplier" FromRole="Supplier" ToRole="Item" />
+    <NavigationProperty Name="LoginUser" Relationship="HomeFoodiesModel.FK_Supplier_LoginUser" FromRole="Supplier" ToRole="LoginUser" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="UOMType">
     <Key>
       <PropertyRef Name="UOMTypeID" />
     </Key>
-    <Property Name="UOMTypeID" Type="Int32" Nullable="false" />
+    <Property Name="UOMTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="UOMTypeDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="IsDecimal" Type="Boolean" Nullable="false" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -251,7 +421,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Supplier_LoginUser">
-    <End Type="HomeFoodiesModel.LoginUser" Role="LoginUser" Multiplicity="0..1" />
+    <End Type="HomeFoodiesModel.LoginUser" Role="LoginUser" Multiplicity="1" />
     <End Type="HomeFoodiesModel.Supplier" Role="Supplier" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LoginUser">
@@ -286,13 +456,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="LoginUserGetLogin">
-    <Property Type="Int32" Name="UserID" Nullable="false" />
-    <Property Type="String" Name="UserEmail" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="UserPassword" Nullable="false" MaxLength="50" />
-    <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
-    <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="10" />
-    <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
-    <Property Type="String" Name="FullName" Nullable="true" MaxLength="150" />
-  </ComplexType>
 </Schema>

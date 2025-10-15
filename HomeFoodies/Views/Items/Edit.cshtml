@@ -1,0 +1,286 @@
+﻿@model HomeFoodies.Models.Item
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Admin/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit</h2>
+<div class="portlet box grey-cascade">
+    <div class="portlet-title portlet-title-color">
+        <div class="caption">
+            <i class="fa fa-globe"></i>Add Item
+        </div>
+    </div>
+
+    <div class="portlet-body">
+
+        @using (Html.BeginForm("Edit", "Items", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Item</h4>
+                <hr />
+                <div class="form-body">
+                    <div class="col-lg-8">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ItemID)
+                    @Html.HiddenFor(model => model.ImagePath)
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Name: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ItemName, new { @placeholder = "Enter Item Name", htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Description: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-9">
+                                @Html.TextAreaFor(model => model.ItemDescription, new { style = "width: 100%; height:200px;", @htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Category: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-6">
+                                @Html.DropDownList("ItemCategoryID", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ItemCategoryID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Active: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-9">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.IsActive)
+                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Price: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.ItemPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ItemPrice, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Unit Of Measure: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-6">
+                                @Html.DropDownList("UOMTypeID", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.UOMTypeID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group hidden">
+                            <label class="col-md-3 control-label">
+                                Supplier: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-6">
+                                @Html.DropDownList("SupplierID", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Max Order Limit: <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.MaxOrderLimit, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MaxOrderLimit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label">
+                        Set Product Image: <span class="required">
+                            *
+                        </span>
+                    </label>
+                    <article class="styled">
+                        <div class="imagePreview">
+                            <img src="@Url.Content((String.IsNullOrEmpty(Model.ImagePath) ? "~/img/products/default.png" : Model.ImagePath))" alt="" width="256" title="Image preview 256px" />
+                        </div>
+                        <input type="file" class="filestyle" data-input="false" name="imagefile" onchange="previewImage(this,[256],4);" />
+                    </article>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-8 ">
+                        <input type="submit" value="Create" class="btn btn-warning pull-right" />
+                    </div>
+                </div>
+
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@using (Html.BeginForm("Edit", "Items", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Item</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ItemID)
+            @Html.HiddenFor(model => model.ImagePath)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ItemCategoryID, "ItemCategoryID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ItemCategoryID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ItemCategoryID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ItemDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsActive)
+                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ItemPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ItemPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ItemPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UOMTypeID, "UOMTypeID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("UOMTypeID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UOMTypeID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SupplierID, "SupplierID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("SupplierID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaxOrderLimit, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MaxOrderLimit, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaxOrderLimit, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Image</label>
+                <div class="col-md-10">
+                    <img src="@Url.Content((String.IsNullOrEmpty(Model.ImagePath) ? "~/img/products/default.png" : Model.ImagePath))" alt="" style="height:200px;width:180px;" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Change Image", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" id="Avatar" name="upload" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+*@

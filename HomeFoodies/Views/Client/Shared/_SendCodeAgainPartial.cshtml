@@ -1,0 +1,13 @@
+﻿@using HomeFoodies.Models
+@model Supplier
+@{
+    ViewBag.Title = "Send Code Again";
+}
+
+@using (Html.BeginForm("SendCodeAgain", "Suppliers", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.SupplierID, new { @class = "form-control", @placeholder = "", @autocomplete = "off" })
+    @Html.HiddenFor(m => m.LinkedLoginUserID, new { @class = "form-control", @placeholder = "", @autocomplete = "off" })
+    <input type="submit" value="Click here" class="btn" />
+}

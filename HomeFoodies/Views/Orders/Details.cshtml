@@ -1,0 +1,91 @@
+﻿@model HomeFoodies.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Client/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalOrderAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalOrderAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommisionPercentage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommisionPercentage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCustomerConfirmed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCustomerConfirmed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSupplierConfirmed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSupplierConfirmed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VerificationCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VerificationCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.CutomerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CutomerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusCode.StatusDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusCode.StatusDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

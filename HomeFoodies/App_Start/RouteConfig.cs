@@ -18,6 +18,18 @@ namespace HomeFoodies
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "ProductsSearch",
+                url: "{controller}/{action}/{itemcategoryid}/{supplierid}/{supplierregion}/{itemname}",
+                defaults: new { controller = "Products", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ProductsCategories",
+                url: "{controller}/{action}/{supplierregion}",
+                defaults: new { controller = "Products", action = "ShowCategories", id = UrlParameter.Optional }
+            );
         }
     }
 }

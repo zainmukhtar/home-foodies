@@ -163,11 +163,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Controllers\LoginUserController.cs" />
+    <Compile Include="Controllers\OrderDetailsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
+    <Compile Include="Controllers\UOMTypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AndroidGCMSMSGateway.cs" />
+    <Compile Include="Helpers\Emails.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Models\Category.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
@@ -175,7 +185,13 @@
     <Compile Include="Models\Customer.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerGetByPhone.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomModels\Customer.cs" />
+    <Compile Include="Models\CustomModels\OrderDetail.cs" />
     <Compile Include="Models\CustomModels\Supplier.cs" />
+    <Compile Include="Models\CustomModels\UserSearch.cs" />
     <Compile Include="Models\EFHomeFoodies.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -195,10 +211,16 @@
     <Compile Include="Models\Item.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LatestItems.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LoginUser.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginUserGetLogin.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoginUserVerifyCode.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Order.cs">
@@ -207,10 +229,25 @@
     <Compile Include="Models\OrderDetail.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrdersCommission.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderVerifyCode.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductsCategories.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductsSearch.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StatusCode.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supplier.cs">
+      <DependentUpon>EFHomeFoodies.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>EFHomeFoodies.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UOMType.cs">
@@ -220,21 +257,26 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\blueimp-gallery.min.css" />
     <Content Include="Content\bootstrap-switch.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\components-md.css" />
     <Content Include="Content\components-rounded.css" />
     <Content Include="Content\components.css" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\dataTables.bootstrap.css" />
     <Content Include="Content\daterangepicker-bs3.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fullcalendar.css" />
+    <Content Include="Content\jquery.fileupload-ui.css" />
+    <Content Include="Content\jquery.fileupload.css" />
     <Content Include="Content\jqvmap.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\light.css" />
     <Content Include="Content\morris.css" />
     <Content Include="Content\plugins-md.css" />
     <Content Include="Content\plugins.css" />
+    <Content Include="Content\select2.css" />
     <Content Include="Content\simple-line-icons.css" />
     <Content Include="Content\tasks.css" />
     <Content Include="Content\uniform.default.min.css" />
@@ -264,11 +306,14 @@
     <Content Include="img\avatar7.jpg" />
     <Content Include="img\avatar8.jpg" />
     <Content Include="img\avatar9.jpg" />
+    <Content Include="img\banner1.jpg" />
+    <Content Include="img\banner3.jpg" />
     <Content Include="img\bg-input-focus.png" />
     <Content Include="img\bg-input.png" />
     <Content Include="img\datatable-row-openclose.png" />
     <Content Include="img\Excel_header.png" />
     <Content Include="img\header.jpg" />
+    <Content Include="img\hflogo_lahore.png" />
     <Content Include="img\home_bg.png" />
     <Content Include="img\hor-menu-red-arrow.png" />
     <Content Include="img\icon-color-close.png" />
@@ -285,6 +330,11 @@
     <Content Include="img\logo-big.png" />
     <Content Include="img\logo-default.png" />
     <Content Include="img\logo.png" />
+    <Content Include="img\Logo2.png" />
+    <Content Include="img\Logoorange.png" />
+    <Content Include="img\logo_new.png" />
+    <Content Include="img\logo_orange.png" />
+    <Content Include="img\mcdonald.jpg" />
     <Content Include="img\menu-toggler.png" />
     <Content Include="img\overlay-icon.png" />
     <Content Include="img\photo1.jpg" />
@@ -301,6 +351,7 @@
     <Content Include="img\portlet-remove-icon.png" />
     <Content Include="img\remove-icon-small.png" />
     <Content Include="img\search_icon_light.png" />
+    <Content Include="img\set_product.jpg" />
     <Content Include="img\sidebar-menu-arrow-reverse.png" />
     <Content Include="img\sidebar-menu-arrow-right.png" />
     <Content Include="img\sidebar-menu-arrow.png" />
@@ -353,33 +404,51 @@
       <LastGenOutput>EFHomeFoodies.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-filestyle.min.js" />
     <Content Include="Scripts\bootstrap-hover-dropdown.min.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap-switch.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\canvas-to-blob.min.js" />
     <Content Include="Scripts\components-dropdowns.js" />
     <Content Include="Scripts\datatable.js" />
+    <Content Include="Scripts\dataTables.bootstrap.js" />
     <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Scripts\demo.js" />
+    <Content Include="Scripts\form-fileupload.js" />
     <Content Include="Scripts\fullcalendar.js" />
+    <Content Include="Scripts\html5.image.preview.min.js" />
     <Content Include="Scripts\index.js" />
     <Content Include="Content\components-md.css.map" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\index3.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.blueimp-gallery.min.js" />
     <Content Include="Scripts\jquery.cokie.min.js" />
+    <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.easypiechart.js" />
+    <Content Include="Scripts\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\jquery.fileupload-audio.js" />
+    <Content Include="Scripts\jquery.fileupload-image.js" />
+    <Content Include="Scripts\jquery.fileupload-process.js" />
+    <Content Include="Scripts\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\jquery.fileupload-video.js" />
+    <Content Include="Scripts\jquery.fileupload.js" />
     <Content Include="Scripts\jquery.flot.categories.js" />
     <Content Include="Scripts\jquery.flot.min.js" />
     <Content Include="Scripts\jquery.flot.resize.js" />
+    <Content Include="Scripts\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery.multi-select.js" />
     <Content Include="Scripts\jquery.pulsate.min.js" />
     <Content Include="Scripts\jquery.slimscroll.min.js" />
     <Content Include="Scripts\jquery.sparkline.min.js" />
+    <Content Include="Scripts\jquery.ui.widget.js" />
     <Content Include="Scripts\jquery.uniform.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -387,6 +456,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jquery.vmap.js" />
     <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\load-image.min.js" />
     <Content Include="Scripts\metronic.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.js" />
@@ -396,9 +466,14 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\spinner.min.js" />
+    <Content Include="Scripts\table-managed.js" />
     <Content Include="Scripts\tasks.js" />
     <None Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\tmpl.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -420,9 +495,58 @@
     <Content Include="Views\Suppliers\Edit.cshtml" />
     <Content Include="Views\Suppliers\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Client\Shared\_VerificationPartial.cshtml" />
+    <Content Include="Views\Client\Shared\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\UOMTypes\Create.cshtml" />
+    <Content Include="Views\UOMTypes\Delete.cshtml" />
+    <Content Include="Views\UOMTypes\Details.cshtml" />
+    <Content Include="Views\UOMTypes\Edit.cshtml" />
+    <Content Include="Views\UOMTypes\Index.cshtml" />
+    <Content Include="Views\Items\Create.cshtml" />
+    <Content Include="Views\Items\Delete.cshtml" />
+    <Content Include="Views\Items\Details.cshtml" />
+    <Content Include="Views\Items\Edit.cshtml" />
+    <Content Include="Views\Items\Index.cshtml" />
+    <Content Include="Views\Test.cshtml" />
+    <Content Include="Views\Client\Shared\_SendCodeAgainPartial.cshtml" />
+    <Content Include="Views\Client\Shared\_MainSearchPartial.cshtml" />
+    <Content Include="Views\Client\Shared\_SignUpPartial.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Client\Shared\_MainMenu.cshtml" />
+    <Content Include="Views\Client\Shared\_RightSidebarPartial.cshtml" />
+    <Content Include="Views\Client\Shared\_SidebarPartial.cshtml" />
+    <Content Include="Views\Items\_ProductImage.cshtml" />
+    <Content Include="Views\OrderDetails\Create.cshtml" />
+    <Content Include="Views\OrderDetails\Delete.cshtml" />
+    <Content Include="Views\OrderDetails\Details.cshtml" />
+    <Content Include="Views\OrderDetails\Edit.cshtml" />
+    <Content Include="Views\OrderDetails\Index.cshtml" />
+    <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\Orders\Delete.cshtml" />
+    <Content Include="Views\Orders\Details.cshtml" />
+    <Content Include="Views\Orders\Edit.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Client\Shared\_LatestItemsPartial.cshtml" />
+    <Content Include="Views\Orders\Commission.cshtml" />
+    <Content Include="Views\Client\Shared\_NavBarHomePartial.cshtml" />
+    <Content Include="Views\Client\Shared\_NavbarPartial.cshtml" />
+    <Content Include="Views\Client\Shared\_MainMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="img\products\" />
+    <Folder Include="img\tmp\" />
+    <Folder Include="Views\LoginUser\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

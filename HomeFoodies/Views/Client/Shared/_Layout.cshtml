@@ -11,9 +11,10 @@
     @Styles.Render("~/Content/fontcss")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")   
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/js")
+
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
@@ -21,26 +22,45 @@
             Layout.init(); // init layout
             Demo.init(); // init demo features
             Index.init();
+            FormFileUpload.init();
         });
-    </script>
-</head>
-<body class="page-md page-quick-sidebar-over-content">
 
-    <!-- BEGIN CONTENT -->
+    </script>
+
+</head>
+<body class="page-md page-quick-sidebar-over-content body-color">
+  
+    @(Request.Path.Equals("/") || (Request.Path.Contains("/Suppliers")) || (Request.Path.Contains("/Account")) ? Html.Raw("") : Html.Raw(@Html.Partial("~/Views/Client/Shared/_MainMenuPartial.cshtml")))
+    @if ((Request.Path.Contains("/Products")) || (Request.Path.Contains("/OrderDetails")))
+    {
+        Html.RenderAction("ShowCategories", "Products", new { supplierregion = ViewBag.SupplierRegion });
+    }
+
+
     @RenderBody()
-    <div class="clearfix">
-    </div>
-    <!-- END CONTENT -->
-    <!-- END CONTAINER -->
+
+    @(Request.Path.Equals("/") ? Html.Raw("") : Html.Raw("</div>"))
+    @(Request.Path.Equals("/") ? Html.Raw("") : Html.Raw("</div>"))
+    @if ((Request.Path.Contains("/Products")) || (Request.Path.Contains("/OrderDetails")))
+    {
+        Html.RenderAction("ShowCurrentOrder", "Products");
+    }
+    @(Request.Path.Equals("/") ? Html.Raw("") : Html.Raw("</div>"))
+
+
+
+
+
+
     <!-- BEGIN FOOTER -->
     <div class="page-footer">
         <div class="page-footer-inner">
-            2015 &copy; Home Foodies.
+            2016 &copy; Home Foodies.
         </div>
         <div class="scroll-to-top">
             <i class="icon-arrow-up"></i>
         </div>
     </div>
     <!-- END FOOTER -->
-  </body>
+</body>
 </html>

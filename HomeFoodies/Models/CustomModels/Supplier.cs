@@ -29,7 +29,7 @@ namespace HomeFoodies.Models
         public string SupplierAddress { get; set; }
 
         [Required]
-        [Display(Name = "Region")]
+        [Display(Name = "Locality")]
         [StringLength(60, MinimumLength = 3)]
         public string SupplierRegion { get; set; }
 
@@ -42,7 +42,8 @@ namespace HomeFoodies.Models
         [StringLength(60, MinimumLength = 11)]
         public string ContactNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The email address is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [Display(Name = "Email")]
         [StringLength(60, MinimumLength = 3)]
         public string SupplierEmail { get; set; }

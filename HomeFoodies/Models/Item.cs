@@ -28,6 +28,7 @@ namespace HomeFoodies.Models
         public int UOMTypeID { get; set; }
         public int SupplierID { get; set; }
         public double MaxOrderLimit { get; set; }
+        public string ImagePath { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Supplier Supplier { get; set; }

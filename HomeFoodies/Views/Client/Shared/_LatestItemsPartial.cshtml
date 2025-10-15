@@ -1,0 +1,33 @@
+﻿@model IEnumerable<HomeFoodies.Models.LatestItems>
+
+@{
+    Layout = "~/Views/Client/Shared/_Layout.cshtml";
+    int counter = 1;
+}
+
+<div class="row-fluid">
+    
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-3 item-thumbnail">
+            <div class="pro-in">
+                <a href="@Url.Action("Create", "OrderDetails", new { id = item.ItemID })">
+                    <img src="@Url.Content((String.IsNullOrEmpty(item.ImagePath) ? "~/img/products/default.png" : item.ImagePath))" alt="" style="height:350px;width:100%;" />
+                </a>
+                <div class="f-pro-data">
+                    <div class="pro-data-in">
+                        <div class="item-name" style="">
+                            @Html.DisplayFor(modelItem => item.ItemName)
+                        </div>
+                        <div class="item-category" style="">
+                            @Html.DisplayFor(modelItem => item.ItemCategoryID)
+                        </div>
+                        <div class="item-price" style="">
+                            Rs: @Html.DisplayFor(modelItem => item.ItemPrice)/-
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

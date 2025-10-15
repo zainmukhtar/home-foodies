@@ -57,31 +57,45 @@ namespace HomeFoodies.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginUser model, string returnUrl)
+        public async Task<ActionResult> Login(Supplier supplierModel, string returnUrl)
         {
-            if (ModelState.IsValid)
+            LoginUser model = supplierModel.LoginUser;
+
+            if (supplierModel.LoginUser != null)
             {
                 HomeFoodiesEntities _entity = new HomeFoodiesEntities();
                 ObjectResult<LoginUserGetLogin> result = _entity.SP_LoginUserGetLogin(model.UserEmail);
 
-                if (result != null)
+                List<LoginUserGetLogin> lstResult = result.ToList();
+                if (lstResult.Count > 0)
                 {
-                    LoginUserGetLogin currentUser = result.First();
+                    LoginUserGetLogin currentUser = lstResult.FirstOrDefault();
                     model.UserID = currentUser.UserID;
 
                     if (model.UserID > 0)
                     {
-                        if (model.UserPassword == currentUser.UserPassword)
-                        {                            
+                        if (currentUser.CurrentStatusID != (int)Helpers.StatusCodes.Active)
+                        {
+                            ViewBag.Message = "You are not uthorized to login, Please contact administrator!";
+                            ViewBag.CurrentSignUpStatus = "InActiveUser";
+                            return View("~/Views/Client/Home/Index.cshtml");
+                        }
+                        else if (model.UserPassword == currentUser.UserPassword)
+                        {
                             var identity = await AppUserManager.FindByIdAsync(model.UserEmail);
                             if (identity != null)
                             {
                                 AppSignInManager.SignIn(identity, isPersistent: true, rememberBrowser: true);
-                                identity.LoggedInUser = new LoginUser();
-                                identity.LoggedInUser.UserID = currentUser.UserID;
-                                identity.LoggedInUser.UserEmail = currentUser.UserEmail;
-                                
+                                identity.Id = currentUser.UserID.ToString();
+                                identity.UserName = currentUser.FullName;
+                                identity.SupplierId = currentUser.SupplierID.ToString();
+
+                                Helpers.SessionData _SessionData = new Helpers.SessionData();
+                                _SessionData.LoggedInUser = currentUser;
+
+                                Session["LoggedInSupplier"] = _SessionData;
                             }
+                            ViewBag.Message = "";
                             if (!string.IsNullOrEmpty(returnUrl))
                                 return RedirectToLocal(returnUrl);
                             else
@@ -91,16 +105,20 @@ namespace HomeFoodies.Controllers
                         {
                             ViewBag.LoggedInUserType = model.CurrentStatusID;
                             ViewBag.ValidLogin = false;
-                            ModelState.AddModelError("", "Password is wrong");
-                            return View(model);
+                            //ModelState.AddModelError("", "Password is wrong");
+                            ViewBag.CurrentSignUpStatus = "WrongPassord";
+                            ViewBag.Message = "Wrong Password!";
+                            return View("~/Views/Client/Home/Index.cshtml");
                         }
                     }
-                    else
-                    {
-                        ViewBag.ValidLogin = false;
-                        ModelState.AddModelError("", "Invalid User ID");
-                        return View(model);
-                    }
+                }
+                else
+                {
+                    ViewBag.ValidLogin = false;
+                    //ModelState.AddModelError("", "Invalid User ID");
+                    ViewBag.CurrentSignUpStatus = "InvalidUser";
+                    ViewBag.Message = "Invalid User ID";
+                    return View("~/Views/Client/Home/Index.cshtml");
                 }
             }
             return View(model);

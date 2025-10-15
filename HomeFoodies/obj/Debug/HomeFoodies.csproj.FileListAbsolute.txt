@@ -105,6 +105,6 @@ E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\bin\Microso
 E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\bin\Microsoft.Owin.Security.Google.xml
 E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\bin\Microsoft.Owin.Security.Twitter.xml
 E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\obj\Debug\HomeFoodies.csprojResolveAssemblyReference.cache
 E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\obj\Debug\HomeFoodies.dll
 E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\obj\Debug\HomeFoodies.pdb
+E:\Home Foodies\Project\HomeFoodies 21 11 15\HomeFoodies\HomeFoodies\obj\Debug\HomeFoodies.csprojResolveAssemblyReference.cache

@@ -1,0 +1,54 @@
+﻿@using HomeFoodies.Models
+@model Supplier
+@{
+    ViewBag.Title = "Verify Code";
+}
+
+<div class="modal-dialog modal-verify-resized">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Verification Code</h4>
+        </div>
+        <div class="modal-body">
+            <div class="scroller" style="height:250px" data-always-visible="1" data-rail-visible1="1">
+                @using (Html.BeginForm("VerifyCode", "Suppliers", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = (ViewBag.ValidLogin == null || ViewBag.ValidLogin) ? "alert alert-danger display-hide" : "alert alert-danger" })
+                    <div class="portlet-body form">
+                        <div class="row">
+                            <div class="form-body">
+                                <p>@ViewBag.MessageToShow;</p>
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="form-group form-md-line-input has-warning">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="icon-speech"></i>
+                                            </span>
+                                            @Html.HiddenFor(m => m.LoginUser.UserEmail, new { @class = "form-control", @placeholder = "", @autocomplete = "off" })
+                                            @Html.HiddenFor(m => m.LoginUser.UserID, new { @class = "form-control", @placeholder = "", @autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.LoginUser.VerificationCode, new { @class = "form-control", @placeholder = "", @autocomplete = "off" })
+                                            @Html.ValidationMessageFor(m => m.LoginUser.VerificationCode, "", new { @class = "text-danger" })
+                                            <label for="form_control_1 font-input" class="font-input">Verification Code</label>
+                                            <span class="help-block">5245245</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" value="Verify" class="btn btn-warning" />
+                        </div>
+                    </div>
+                }
+                <p>If you have not received code yet, Please @Html.Partial("~/Views/Client/Shared/_SendCodeAgainPartial.cshtml") to send code again.</p>
+            </div>
+        </div>
+    </div>
+</div>

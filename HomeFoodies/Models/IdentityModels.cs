@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.Entity.Core.Objects;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace HomeFoodies.Models
 {
@@ -15,17 +16,16 @@ namespace HomeFoodies.Models
     {
         public string Id { get; set; }
         public string UserName { get; set; }
-        public LoginUser LoggedInUser { get; set; }
+        public string SupplierId { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
-    UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one 
             // defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity =
-                await manager.CreateIdentityAsync(this,
-                    DefaultAuthenticationTypes.ApplicationCookie);
+                await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
+            userIdentity.AddClaim(new Claim(ClaimTypes.Sid, this.SupplierId)); 
             return userIdentity;
         }
     }
@@ -80,6 +80,8 @@ namespace HomeFoodies.Models
                     if (currentUser.Current.UserID > 0)
                     {
                         usr.UserName = currentUser.Current.FullName;
+                        usr.Id = currentUser.Current.UserID.ToString();
+                        usr.SupplierId = currentUser.Current.SupplierID.ToString();
                     }
                 }
             } 

@@ -1,0 +1,41 @@
+﻿@using HomeFoodies.Models.CustomModels
+@model  UserSearch
+@{
+    ViewBag.Title = "Search";
+}
+
+<div class="search-style">
+    @using (Html.BeginForm("Search", "Products", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <form class="form-inline">
+            <div class="form-group">
+                <label><div class="search-heading"></div></label>
+                <div class="input-icon-search">
+                    <i class="fa fa-map-marker icon-position"></i>
+                    <div class="input-group">
+                        @Html.DropDownListFor(model => model.SupplierRegion, new List<SelectListItem>
+                                             {
+                                                new SelectListItem{ Text="Select Your Area", Value = "" },
+                                                new SelectListItem{ Text="Johar Town", Value = "Johar Town" },
+                                                new SelectListItem{ Text="Garden Town", Value = "Garden Town" },
+                                                new SelectListItem{ Text="Gulberg", Value = "Gulberg" },
+                                                new SelectListItem{ Text="Defence", Value = "Defence" },
+                                                new SelectListItem{ Text="Faisal Town", Value = "Faisal Town" }
+                                             },
+                                            htmlAttributes: new { @class = "c-form-control" })
+                        @Html.ValidationMessageFor(model => model.SupplierRegion, "", new { @class = "has-error" })
+ 
+                        @*@Html.EditorFor(model => model.SupplierRegion, new { htmlAttributes = new { @class = "form-control-search", placeholder = "Enter Your Area"} })
+                          @Html.ValidationMessageFor(model => model.SupplierRegion, "", new { @class = "text-danger" })*@
+                        <span class="input-group-btn">
+                            <button class="btn search-button blue-madison orange-btn" type="submit">GO!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    }
+</div>

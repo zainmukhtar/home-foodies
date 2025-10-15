@@ -1,0 +1,236 @@
+﻿@using HomeFoodies.Models
+@model  Order
+
+@{
+    ViewBag.Title = "Edit";
+    int counter = 1;
+    double total = 0;
+}
+
+<div class="page-sidebar custom-sidebar-right" id="divOrder">
+    <h3>Your Order</h3>
+    <div class="portlet-body form">
+        <div class="row">
+            <div class="form-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-map-marker"></i>
+                            </span>
+
+                            <input type="text" class="form-control" placeholder="Johar Town">
+                        </div>
+                    </div>
+
+                    <div class="table-responsive custom-noborder">
+                        <table class="table">
+                            <tbody>
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <tr>
+                                        <div class="cart-name"><b>@counter</b></div>
+                                    </tr>
+                                    <tr>
+                                        <div class="cart-name"><b>Name: </b>@Html.DisplayFor(modelItem => item.Item.ItemName)</div>
+                                    </tr>
+                                    <tr></tr>
+                                    <tr>
+                                        <div class="cart-name"><b>Price:</b> @Html.DisplayFor(modelItem => item.OrderPrice)</div>
+                                    </tr>
+                                    <tr>
+                                        <div class="cart-name"><b>Quantity:</b> @Html.DisplayFor(modelItem => item.OrderQty) @Html.DisplayFor(modelItem => item.Item.UOMType.UOMTypeDescription)</div>
+                                    </tr>
+                                    <hr>
+                                    counter++;
+                                    total += item.Total;
+                                }
+                            </tbody>
+
+                        </table>
+
+                        <div class="cart-total">Total : <b>@total</b></div>
+                        <div class="clearfix"></div>
+                        <input type="button" value="Proceed To Order" class="btn btn-warning pull-right" onclick="ProceedOrder();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-sidebar custom-sidebar-right" id="divCustomer" style="display:none;">
+    <h3>Your Order</h3>
+    <div class="portlet-body form">
+        <div class="row">
+            @using (Html.BeginForm("PlaceOrder", "Orders"))
+            {
+                @Html.AntiForgeryToken()
+
+                @ViewBag.PlaceOrderReturn
+
+                <div class="form-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <div class="input-icon">
+                                <i class="fa fa-bell-o"></i>
+                                @Html.HiddenFor(model => model.CustomerID, new { htmlAttributes = new { id = "hdfCustomerID" } })
+                                @Html.EditorFor(model => model.Customer.CustomerPhone, new { htmlAttributes = new { @class = "form-control", id = "txtCustomerNumber", onchange = "showCustomerData(this);" } })
+                                @Html.ValidationMessageFor(model => model.Customer.CustomerPhone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <div class="input-icon">
+                                <i class="fa fa-bell-o"></i>
+                                @Html.EditorFor(model => model.Customer.CutomerName, new { htmlAttributes = new { @placeholder = "Your Name", @class = "form-control", id = "txtCutomerName" } })
+                                @Html.ValidationMessageFor(model => model.Customer.CutomerName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <div class="input-icon">
+                                @Html.TextAreaFor(model => model.Customer.CustomerAddress, new { @placeholder = "Your Address", htmlAttributes = new { @class = "form-control", id = "txtCustomerAddress" } })
+                                @Html.ValidationMessageFor(model => model.Customer.CustomerAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <input type="submit" value="Place Order" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="page-sidebar custom-sidebar-right" id="verifyCode" style="display:none;">
+    <h3>Your Order</h3>
+    <div class="portlet-body form">
+        <div class="row">
+            @using (Html.BeginForm("SaveOrder", "Orders"))
+            {
+                @Html.AntiForgeryToken()
+
+                <div id="divVerificationCodeMsg"></div>
+
+                <div class="form-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Verification Code</label>
+                            <div class="input-icon">
+                                <i class="fa fa-bell-o"></i>
+                                @Html.EditorFor(model => model.VerificationCode, new { htmlAttributes = new { @placeholder = "Enter Code", @class = "form-control", id = "txtOrderVerificationCode" } })
+                                @Html.ValidationMessageFor(model => model.VerificationCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <input type="submit" value="Verify" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="page-sidebar custom-sidebar-right" id="orderPlaced" style="display:none;">
+    <h3>Your Order</h3>
+    <div class="portlet-body form">
+        <div class="row">
+            <p>You order has been placed</p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showCustomerData(ele) {
+
+        var number = $(ele).val();
+        $.ajax({
+            url: '@(Url.Action("GetCustomerByPhone", "Customers"))',
+            type: 'POST',
+            data: JSON.stringify({ phone: number }),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data != "" || data != null) {
+                    debugger;
+                    var customerData = data.split('|');
+                    if (customerData.length > 0) {
+                        $("#hdfCustomerID").val(customerData[0]);
+                        $("#txtCutomerName").val(customerData[1]);
+                        $("#Customer_CustomerAddress").text(customerData[2]);
+                        $("#txtCustomerNumber").val(customerData[3]);
+                    }
+                }
+                else {
+                    alert("Our system does not recognize this email. Please try again.");
+                    $("#txtCustomerNumber").focus();
+                }
+            }
+        });
+    }
+
+    function ClearOrder() {
+
+        $.ajax({
+            url: '@(Url.Action("ClearOrderSession", "Orders"))',
+            type: 'POST',
+            data: JSON.stringify({ key: "OrderStatus" }),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data != "" || data != null) {
+                }
+                else {
+                    alert("Error");
+                }
+            }
+        });
+    }
+
+    function ProceedOrder() {
+        $("#divOrder").hide();
+        $("#divCustomer").show();
+        $("#verifyCode").hide();
+    }
+
+    function VerifyCode() {
+        $("#divOrder").hide();
+        $("#divCustomer").hide();
+        $("#verifyCode").show();
+    }
+
+</script>
+
+@if (Session["OrderStatus"] != null && Session["OrderStatus"] == "CodeSent")
+{
+    <script type="text/javascript">
+        $("#txtOrderVerificationCode").val("");
+        $("#txtOrderVerificationCode").focus();
+        VerifyCode();
+        if (Session["OrderStatus"] == "WrongCodeEntered")
+            $("#divVerificationCodeMsg").innerHTML("Code is wrong!");
+    </script>
+}
+else if (Session["OrderStatus"] != null && Session["OrderStatus"] == "WrongCodeEntered")
+{
+    <script type="text/javascript">
+        $("#txtOrderVerificationCode").val("");
+        $("#txtOrderVerificationCode").focus();
+        VerifyCode();
+        debugger;
+        $("#divVerificationCodeMsg")[0].innerHTML = "Code is wrong!";
+    </script>
+}
+else if (Session["OrderStatus"] != null && Session["OrderStatus"] == "OrderSuccessfully")
+{
+    <script type="text/javascript">
+        $("#divOrder").hide();
+        $("#divCustomer").hide();
+        $("#verifyCode").hide();
+        $("#orderPlaced").show();
+        ClearOrder();
+    </script>
+}

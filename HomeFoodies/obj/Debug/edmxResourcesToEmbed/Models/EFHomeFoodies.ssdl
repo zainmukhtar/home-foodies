@@ -4,7 +4,7 @@
     <Key>
       <PropertyRef Name="ItemCategoryID" />
     </Key>
-    <Property Name="ItemCategoryID" Type="int" Nullable="false" />
+    <Property Name="ItemCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ItemCategoryDesc" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
@@ -30,6 +30,7 @@
     <Property Name="UOMTypeID" Type="int" Nullable="false" />
     <Property Name="SupplierID" Type="int" Nullable="false" />
     <Property Name="MaxOrderLimit" Type="float" Nullable="false" />
+    <Property Name="ImagePath" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="LoginUser">
     <Key>
@@ -84,15 +85,25 @@
     <Property Name="SupplierAddress" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="SupplierRegion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="SupplierCity" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="LinkedLoginUserID" Type="int" />
+    <Property Name="LinkedLoginUserID" Type="int" Nullable="false" />
     <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
     <Property Name="SupplierEmail" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="UOMType">
     <Key>
       <PropertyRef Name="UOMTypeID" />
     </Key>
-    <Property Name="UOMTypeID" Type="int" Nullable="false" />
+    <Property Name="UOMTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UOMTypeDescription" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="IsDecimal" Type="bit" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -193,8 +204,91 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Supplier_LoginUser">
+    <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="1" />
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoginUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Supplier">
+        <PropertyRef Name="LinkedLoginUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="sp_Category_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Category_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+    <Parameter Name="ItemCategoryDesc" Type="varchar" Mode="In" />
+    <Parameter Name="IsActive" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="sp_Customer_GetByPhone" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerPhone" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Item_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Item_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemID" Type="int" Mode="In" />
+    <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+    <Parameter Name="ItemName" Type="varchar" Mode="In" />
+    <Parameter Name="ItemDescription" Type="varchar" Mode="In" />
+    <Parameter Name="IsActive" Type="bit" Mode="In" />
+    <Parameter Name="ItemPrice" Type="float" Mode="In" />
+    <Parameter Name="UOMTypeID" Type="int" Mode="In" />
+    <Parameter Name="SupplierID" Type="int" Mode="In" />
+    <Parameter Name="MaxOrderLimit" Type="float" Mode="In" />
+    <Parameter Name="ImagePath" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_LoginUser_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_LoginUser_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="UserEmail" Type="varchar" Mode="In" />
+    <Parameter Name="UserPassword" Type="varchar" Mode="In" />
+    <Parameter Name="CurrentStatusID" Type="int" Mode="In" />
+    <Parameter Name="VerificationCode" Type="varchar" Mode="In" />
+    <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="sp_LoginUser_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserEmail" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_LoginUser_SetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="UserPassword" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_LoginUser_UpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="CurrentStatusID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_LoginUser_VerifyCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="VerificationCode" Type="varchar" Mode="In" />
+    <Parameter Name="UserID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Order_GetMaxOrerNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_Order_UpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CurrentStatuID" Type="int" Mode="In" />
+    <Parameter Name="OrderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Order_VerifyCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="VerificationCode" Type="varchar" Mode="In" />
+    <Parameter Name="OrderNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Orders_Commission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Products_GetItemCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SupplierRegion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Products_GetLatest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_Products_Search" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+    <Parameter Name="SupplierID" Type="int" Mode="In" />
+    <Parameter Name="SupplierRegion" Type="varchar" Mode="In" />
+    <Parameter Name="ItemName" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_Supplier_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SupplierID" Type="int" Mode="In" />
@@ -208,7 +302,18 @@
     <Parameter Name="SupplierCity" Type="varchar" Mode="In" />
     <Parameter Name="LinkedLoginUserID" Type="int" Mode="In" />
     <Parameter Name="ContactNumber" Type="varchar" Mode="In" />
+    <Parameter Name="SupplierEmail" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="sp_UOMType_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UOMTypeID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_UOMType_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UOMTypeID" Type="int" Mode="In" />
+    <Parameter Name="UOMTypeDescription" Type="varchar" Mode="In" />
+    <Parameter Name="IsDecimal" Type="bit" Mode="In" />
+    <Parameter Name="IsActive" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="uf_GetMaxOrderNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar" />
   <EntityContainer Name="HomeFoodiesModelStoreContainer">
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -218,6 +323,7 @@
     <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StatusCodes" EntityType="Self.StatusCodes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UOMType" EntityType="Self.UOMType" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Item_Category" Association="Self.FK_Item_Category">
       <End Role="Category" EntitySet="Category" />
@@ -250,6 +356,10 @@
     <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
       <End Role="Order" EntitySet="Order" />
       <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Supplier_LoginUser" Association="Self.FK_Supplier_LoginUser">
+      <End Role="LoginUser" EntitySet="LoginUser" />
+      <End Role="Supplier" EntitySet="Supplier" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

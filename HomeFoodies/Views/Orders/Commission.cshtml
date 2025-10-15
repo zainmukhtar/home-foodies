@@ -1,0 +1,58 @@
+﻿@model IEnumerable<HomeFoodies.Models.OrdersCommission>
+
+@{
+    ViewBag.Title = "Commission";
+    Layout = "~/Views/Admin/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Commission</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommisionPercentage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalOrderAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SellerCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyCommission)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommisionPercentage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalOrderAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SellerCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyCommission)
+        </td>
+    </tr>
+}
+
+</table>

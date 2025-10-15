@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="ItemCategoryID" />
           </Key>
-          <Property Name="ItemCategoryID" Type="int" Nullable="false" />
+          <Property Name="ItemCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemCategoryDesc" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
@@ -35,6 +35,7 @@
           <Property Name="UOMTypeID" Type="int" Nullable="false" />
           <Property Name="SupplierID" Type="int" Nullable="false" />
           <Property Name="MaxOrderLimit" Type="float" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="LoginUser">
           <Key>
@@ -89,15 +90,25 @@
           <Property Name="SupplierAddress" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="SupplierRegion" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SupplierCity" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="LinkedLoginUserID" Type="int" />
+          <Property Name="LinkedLoginUserID" Type="int" Nullable="false" />
           <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
           <Property Name="SupplierEmail" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="UOMType">
           <Key>
             <PropertyRef Name="UOMTypeID" />
           </Key>
-          <Property Name="UOMTypeID" Type="int" Nullable="false" />
+          <Property Name="UOMTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UOMTypeDescription" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IsDecimal" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -198,8 +209,91 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Supplier_LoginUser">
+          <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoginUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="LinkedLoginUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_Category_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Category_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+          <Parameter Name="ItemCategoryDesc" Type="varchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="sp_Customer_GetByPhone" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerPhone" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Item_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Item_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemID" Type="int" Mode="In" />
+          <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+          <Parameter Name="ItemName" Type="varchar" Mode="In" />
+          <Parameter Name="ItemDescription" Type="varchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="ItemPrice" Type="float" Mode="In" />
+          <Parameter Name="UOMTypeID" Type="int" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
+          <Parameter Name="MaxOrderLimit" Type="float" Mode="In" />
+          <Parameter Name="ImagePath" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_LoginUser_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_LoginUser_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="UserEmail" Type="varchar" Mode="In" />
+          <Parameter Name="UserPassword" Type="varchar" Mode="In" />
+          <Parameter Name="CurrentStatusID" Type="int" Mode="In" />
+          <Parameter Name="VerificationCode" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedOn" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="sp_LoginUser_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserEmail" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_LoginUser_SetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="UserPassword" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_LoginUser_UpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="CurrentStatusID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_LoginUser_VerifyCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VerificationCode" Type="varchar" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Order_GetMaxOrerNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Order_UpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CurrentStatuID" Type="int" Mode="In" />
+          <Parameter Name="OrderID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Order_VerifyCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VerificationCode" Type="varchar" Mode="In" />
+          <Parameter Name="OrderNo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Orders_Commission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Products_GetItemCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SupplierRegion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Products_GetLatest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Products_Search" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemCategoryID" Type="int" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
+          <Parameter Name="SupplierRegion" Type="varchar" Mode="In" />
+          <Parameter Name="ItemName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_Supplier_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SupplierID" Type="int" Mode="In" />
@@ -213,7 +307,18 @@
           <Parameter Name="SupplierCity" Type="varchar" Mode="In" />
           <Parameter Name="LinkedLoginUserID" Type="int" Mode="In" />
           <Parameter Name="ContactNumber" Type="varchar" Mode="In" />
+          <Parameter Name="SupplierEmail" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_UOMType_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UOMTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UOMType_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UOMTypeID" Type="int" Mode="In" />
+          <Parameter Name="UOMTypeDescription" Type="varchar" Mode="In" />
+          <Parameter Name="IsDecimal" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="uf_GetMaxOrderNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar" />
         <EntityContainer Name="HomeFoodiesModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -223,6 +328,7 @@
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StatusCodes" EntityType="Self.StatusCodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UOMType" EntityType="Self.UOMType" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Item_Category" Association="Self.FK_Item_Category">
             <End Role="Category" EntitySet="Category" />
@@ -256,6 +362,10 @@
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_Supplier_LoginUser" Association="Self.FK_Supplier_LoginUser">
+            <End Role="LoginUser" EntitySet="LoginUser" />
+            <End Role="Supplier" EntitySet="Supplier" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -274,6 +384,90 @@
             <Parameter Name="SupplierCity" Mode="In" Type="String" />
             <Parameter Name="LinkedLoginUserID" Mode="In" Type="Int32" />
             <Parameter Name="ContactNumber" Mode="In" Type="String" />
+            <Parameter Name="SupplierEmail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_LoginUserGetLogin" ReturnType="Collection(HomeFoodiesModel.LoginUserGetLogin)">
+          <Parameter Name="UserEmail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_LoginUserVerifyCode" ReturnType="Collection(HomeFoodiesModel.LoginUserVerifyCode)">
+            <Parameter Name="VerificationCode" Mode="In" Type="String" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_LoginUserSetPassword">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="UserPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Category_Delete">
+          <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Category_InsertUpdate" ReturnType="Collection(Decimal)">
+            <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+            <Parameter Name="ItemCategoryDesc" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Item_Delete">
+          <Parameter Name="ItemID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Item_InsertUpdate" ReturnType="Collection(Decimal)">
+            <Parameter Name="ItemID" Mode="In" Type="Int32" />
+            <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+            <Parameter Name="ItemName" Mode="In" Type="String" />
+            <Parameter Name="ItemDescription" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="ItemPrice" Mode="In" Type="Double" />
+            <Parameter Name="UOMTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+            <Parameter Name="MaxOrderLimit" Mode="In" Type="Double" />
+            <Parameter Name="ImagePath" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UOMType_Delete">
+          <Parameter Name="UOMTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UOMType_InsertUpdate" ReturnType="Collection(Decimal)">
+            <Parameter Name="UOMTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="UOMTypeDescription" Mode="In" Type="String" />
+            <Parameter Name="IsDecimal" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="sp_LoginUser_Delete">
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_LoginUser_InsertUpdate">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="UserEmail" Mode="In" Type="String" />
+            <Parameter Name="UserPassword" Mode="In" Type="String" />
+            <Parameter Name="CurrentStatusID" Mode="In" Type="Int32" />
+            <Parameter Name="VerificationCode" Mode="In" Type="String" />
+            <Parameter Name="CreatedOn" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_LoginUser_UpdateStatus">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentStatusID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Products_Search" ReturnType="Collection(HomeFoodiesModel.ProductsSearch)">
+            <Parameter Name="ItemCategoryID" Mode="In" Type="Int32" />
+            <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+            <Parameter Name="SupplierRegion" Mode="In" Type="String" />
+            <Parameter Name="ItemName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Products_GetItemCategories" ReturnType="Collection(HomeFoodiesModel.ProductsCategories)">
+          <Parameter Name="SupplierRegion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Order_GetMaxOrerNo" ReturnType="Collection(String)" />
+          <FunctionImport Name="SP_Customer_GetByPhone" ReturnType="Collection(HomeFoodiesModel.CustomerGetByPhone)">
+          <Parameter Name="CustomerPhone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Products_GetLatest" ReturnType="Collection(HomeFoodiesModel.LatestItems)" />
+          <FunctionImport Name="SP_Order_VerifyCode" ReturnType="Collection(HomeFoodiesModel.OrderVerifyCode)">
+            <Parameter Name="VerificationCode" Mode="In" Type="String" />
+            <Parameter Name="OrderNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Order_UpdateStatus">
+            <Parameter Name="CurrentStatuID" Mode="In" Type="Int32" />
+            <Parameter Name="OrderID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Orders_Commission" ReturnType="Collection(HomeFoodiesModel.OrdersCommission)">
+          <Parameter Name="SupplierID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Categories" EntityType="HomeFoodiesModel.Category" />
           <EntitySet Name="Customers" EntityType="HomeFoodiesModel.Customer" />
@@ -283,6 +477,7 @@
           <EntitySet Name="OrderDetails" EntityType="HomeFoodiesModel.OrderDetail" />
           <EntitySet Name="StatusCodes" EntityType="HomeFoodiesModel.StatusCode" />
           <EntitySet Name="Suppliers" EntityType="HomeFoodiesModel.Supplier" />
+          <EntitySet Name="sysdiagrams" EntityType="HomeFoodiesModel.sysdiagram" />
           <EntitySet Name="UOMTypes" EntityType="HomeFoodiesModel.UOMType" />
           <AssociationSet Name="FK_Item_Category" Association="HomeFoodiesModel.FK_Item_Category">
             <End Role="Category" EntitySet="Categories" />
@@ -320,15 +515,89 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
-          <FunctionImport Name="SP_LoginUserGetLogin" ReturnType="Collection(HomeFoodiesModel.LoginUserGetLogin)">
-          <Parameter Name="UserEmail" Mode="In" Type="String" />
-          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="LoginUserGetLogin">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="UserEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UserPassword" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
+          <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="SupplierID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="LoginUserVerifyCode">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="UserEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UserPassword" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
+          <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="ProductsSearch">
+          <Property Type="Int32" Name="ItemID" Nullable="false" />
+          <Property Type="String" Name="ItemName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ItemDescription" Nullable="false" MaxLength="1500" />
+          <Property Type="Double" Name="ItemPrice" Nullable="false" />
+          <Property Type="Double" Name="MaxOrderLimit" Nullable="false" />
+          <Property Type="String" Name="ImagePath" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="ItemCategoryID" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="SupplierID" Nullable="false" />
+          <Property Type="Int32" Name="UOMTypeID" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ItemCategoryDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UOMTypeDescription" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsDecimal" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ProductsCategories">
+          <Property Type="Int32" Name="ItemCategoryID" Nullable="true" />
+          <Property Type="String" Name="ItemCategoryDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SupplierRegion" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="CustomerGetByPhone">
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="String" Name="CutomerName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="CustomerAddress" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CustomerPhone" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="LatestItems">
+          <Property Type="Int32" Name="ItemID" Nullable="false" />
+          <Property Type="Int32" Name="ItemCategoryID" Nullable="false" />
+          <Property Type="String" Name="ItemName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ItemDescription" Nullable="false" MaxLength="1500" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Double" Name="ItemPrice" Nullable="false" />
+          <Property Type="Int32" Name="UOMTypeID" Nullable="false" />
+          <Property Type="Int32" Name="SupplierID" Nullable="false" />
+          <Property Type="Double" Name="MaxOrderLimit" Nullable="false" />
+          <Property Type="String" Name="ImagePath" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="OrderVerifyCode">
+          <Property Type="Int32" Name="OrderID" Nullable="false" />
+          <Property Type="String" Name="OrderNo" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="OrderDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
+          <Property Type="Double" Name="TotalOrderAmount" Nullable="false" />
+          <Property Type="Double" Name="CommisionPercentage" Nullable="false" />
+          <Property Type="Boolean" Name="IsCustomerConfirmed" Nullable="false" />
+          <Property Type="Boolean" Name="IsSupplierConfirmed" Nullable="false" />
+          <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="6" />
+        </ComplexType>
+        <ComplexType Name="OrdersCommission">
+          <Property Type="String" Name="OrderNo" Nullable="false" MaxLength="15" />
+          <Property Type="Double" Name="CommisionPercentage" Nullable="false" />
+          <Property Type="DateTime" Name="OrderDate" Nullable="false" Precision="23" />
+          <Property Type="Double" Name="TotalOrderAmount" Nullable="false" />
+          <Property Type="Decimal" Name="SellerCost" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="Decimal" Name="CompanyCommission" Nullable="false" Precision="1" Scale="1" />
+        </ComplexType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="ItemCategoryID" />
           </Key>
-          <Property Name="ItemCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="ItemCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ItemCategoryDesc" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Items" Relationship="HomeFoodiesModel.FK_Item_Category" FromRole="Category" ToRole="Item" />
@@ -356,6 +625,7 @@
           <Property Name="UOMTypeID" Type="Int32" Nullable="false" />
           <Property Name="SupplierID" Type="Int32" Nullable="false" />
           <Property Name="MaxOrderLimit" Type="Double" Nullable="false" />
+          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Category" Relationship="HomeFoodiesModel.FK_Item_Category" FromRole="Item" ToRole="Category" />
           <NavigationProperty Name="Supplier" Relationship="HomeFoodiesModel.FK_Item_Supplier" FromRole="Item" ToRole="Supplier" />
           <NavigationProperty Name="UOMType" Relationship="HomeFoodiesModel.FK_Item_UOMType" FromRole="Item" ToRole="UOMType" />
@@ -423,17 +693,27 @@
           <Property Name="SupplierAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="SupplierRegion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SupplierCity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LinkedLoginUserID" Type="Int32" />
-          <NavigationProperty Name="Items" Relationship="HomeFoodiesModel.FK_Item_Supplier" FromRole="Supplier" ToRole="Item" />
-          <NavigationProperty Name="LoginUser" Relationship="HomeFoodiesModel.FK_Supplier_LoginUser" FromRole="Supplier" ToRole="LoginUser" />
+          <Property Name="LinkedLoginUserID" Type="Int32" Nullable="false" />
           <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SupplierEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Items" Relationship="HomeFoodiesModel.FK_Item_Supplier" FromRole="Supplier" ToRole="Item" />
+          <NavigationProperty Name="LoginUser" Relationship="HomeFoodiesModel.FK_Supplier_LoginUser" FromRole="Supplier" ToRole="LoginUser" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="UOMType">
           <Key>
             <PropertyRef Name="UOMTypeID" />
           </Key>
-          <Property Name="UOMTypeID" Type="Int32" Nullable="false" />
+          <Property Name="UOMTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UOMTypeDescription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsDecimal" Type="Boolean" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -512,7 +792,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Supplier_LoginUser">
-          <End Type="HomeFoodiesModel.LoginUser" Role="LoginUser" Multiplicity="0..1" />
+          <End Type="HomeFoodiesModel.LoginUser" Role="LoginUser" Multiplicity="1" />
           <End Type="HomeFoodiesModel.Supplier" Role="Supplier" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LoginUser">
@@ -547,15 +827,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="LoginUserGetLogin">
-          <Property Type="Int32" Name="UserID" Nullable="false" />
-          <Property Type="String" Name="UserEmail" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="UserPassword" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="CurrentStatusID" Nullable="false" />
-          <Property Type="String" Name="VerificationCode" Nullable="false" MaxLength="10" />
-          <Property Type="DateTime" Name="CreatedOn" Nullable="false" Precision="23" />
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="150" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -564,6 +835,127 @@
         <EntityContainerMapping StorageEntityContainer="HomeFoodiesModelStoreContainer" CdmEntityContainer="HomeFoodiesEntities">
           <FunctionImportMapping FunctionImportName="sp_Supplier_Delete" FunctionName="HomeFoodiesModel.Store.sp_Supplier_Delete" />
           <FunctionImportMapping FunctionImportName="sp_Supplier_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_Supplier_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="SP_LoginUserGetLogin" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.LoginUserGetLogin">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+                <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_LoginUserVerifyCode" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_VerifyCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.LoginUserVerifyCode">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+                <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_LoginUserSetPassword" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_SetPassword" />
+          <FunctionImportMapping FunctionImportName="sp_Category_Delete" FunctionName="HomeFoodiesModel.Store.sp_Category_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_Category_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_Category_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="sp_Item_Delete" FunctionName="HomeFoodiesModel.Store.sp_Item_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_Item_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_Item_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="sp_UOMType_Delete" FunctionName="HomeFoodiesModel.Store.sp_UOMType_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_UOMType_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_UOMType_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="sp_LoginUser_Delete" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_LoginUser_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="sp_LoginUser_UpdateStatus" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_UpdateStatus" />
+          <FunctionImportMapping FunctionImportName="SP_Products_Search" FunctionName="HomeFoodiesModel.Store.sp_Products_Search">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.ProductsSearch">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+                <ScalarProperty Name="MaxOrderLimit" ColumnName="MaxOrderLimit" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="ItemCategoryDesc" ColumnName="ItemCategoryDesc" />
+                <ScalarProperty Name="UOMTypeDescription" ColumnName="UOMTypeDescription" />
+                <ScalarProperty Name="IsDecimal" ColumnName="IsDecimal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Products_GetItemCategories" FunctionName="HomeFoodiesModel.Store.sp_Products_GetItemCategories">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.ProductsCategories">
+                <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+                <ScalarProperty Name="ItemCategoryDesc" ColumnName="ItemCategoryDesc" />
+                <ScalarProperty Name="SupplierRegion" ColumnName="SupplierRegion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Order_GetMaxOrerNo" FunctionName="HomeFoodiesModel.Store.sp_Order_GetMaxOrerNo" />
+          <FunctionImportMapping FunctionImportName="SP_Customer_GetByPhone" FunctionName="HomeFoodiesModel.Store.sp_Customer_GetByPhone">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.CustomerGetByPhone">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CutomerName" ColumnName="CutomerName" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Products_GetLatest" FunctionName="HomeFoodiesModel.Store.sp_Products_GetLatest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.LatestItems">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+                <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="MaxOrderLimit" ColumnName="MaxOrderLimit" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Order_VerifyCode" FunctionName="HomeFoodiesModel.Store.sp_Order_VerifyCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.OrderVerifyCode">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+                <ScalarProperty Name="TotalOrderAmount" ColumnName="TotalOrderAmount" />
+                <ScalarProperty Name="CommisionPercentage" ColumnName="CommisionPercentage" />
+                <ScalarProperty Name="IsCustomerConfirmed" ColumnName="IsCustomerConfirmed" />
+                <ScalarProperty Name="IsSupplierConfirmed" ColumnName="IsSupplierConfirmed" />
+                <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Order_UpdateStatus" FunctionName="HomeFoodiesModel.Store.sp_Order_UpdateStatus" />
+          <FunctionImportMapping FunctionImportName="SP_Orders_Commission" FunctionName="HomeFoodiesModel.Store.sp_Orders_Commission">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeFoodiesModel.OrdersCommission">
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="CommisionPercentage" ColumnName="CommisionPercentage" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="TotalOrderAmount" ColumnName="TotalOrderAmount" />
+                <ScalarProperty Name="SellerCost" ColumnName="SellerCost" />
+                <ScalarProperty Name="CompanyCommission" ColumnName="CompanyCommission" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="HomeFoodiesModel.Category">
               <MappingFragment StoreEntitySet="Category">
@@ -586,6 +978,7 @@
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="HomeFoodiesModel.Item">
               <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="MaxOrderLimit" ColumnName="MaxOrderLimit" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
                 <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
@@ -660,6 +1053,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HomeFoodiesModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UOMTypes">
             <EntityTypeMapping TypeName="HomeFoodiesModel.UOMType">
               <MappingFragment StoreEntitySet="UOMType">
@@ -670,19 +1074,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_LoginUserGetLogin" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_Login">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HomeFoodiesModel.LoginUserGetLogin">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
-                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-                <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
-                <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

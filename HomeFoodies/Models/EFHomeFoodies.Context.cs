@@ -35,6 +35,7 @@ namespace HomeFoodies.Models
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<StatusCode> StatusCodes { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UOMType> UOMTypes { get; set; }
     
         public virtual int sp_Supplier_Delete(Nullable<int> supplierID)
@@ -46,7 +47,7 @@ namespace HomeFoodies.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Supplier_Delete", supplierIDParameter);
         }
     
-        public virtual ObjectResult<Nullable<decimal>> sp_Supplier_InsertUpdate(Nullable<int> supplierID, string fullName, string companyName, string supplierAddress, string supplierRegion, string supplierCity, Nullable<int> linkedLoginUserID, string contactNumber)
+        public virtual ObjectResult<Nullable<decimal>> sp_Supplier_InsertUpdate(Nullable<int> supplierID, string fullName, string companyName, string supplierAddress, string supplierRegion, string supplierCity, Nullable<int> linkedLoginUserID, string contactNumber, string supplierEmail)
         {
             var supplierIDParameter = supplierID.HasValue ?
                 new ObjectParameter("SupplierID", supplierID) :
@@ -80,7 +81,11 @@ namespace HomeFoodies.Models
                 new ObjectParameter("ContactNumber", contactNumber) :
                 new ObjectParameter("ContactNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Supplier_InsertUpdate", supplierIDParameter, fullNameParameter, companyNameParameter, supplierAddressParameter, supplierRegionParameter, supplierCityParameter, linkedLoginUserIDParameter, contactNumberParameter);
+            var supplierEmailParameter = supplierEmail != null ?
+                new ObjectParameter("SupplierEmail", supplierEmail) :
+                new ObjectParameter("SupplierEmail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Supplier_InsertUpdate", supplierIDParameter, fullNameParameter, companyNameParameter, supplierAddressParameter, supplierRegionParameter, supplierCityParameter, linkedLoginUserIDParameter, contactNumberParameter, supplierEmailParameter);
         }
     
         public virtual ObjectResult<LoginUserGetLogin> SP_LoginUserGetLogin(string userEmail)
@@ -90,6 +95,277 @@ namespace HomeFoodies.Models
                 new ObjectParameter("UserEmail", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginUserGetLogin>("SP_LoginUserGetLogin", userEmailParameter);
+        }
+    
+        public virtual ObjectResult<LoginUserVerifyCode> SP_LoginUserVerifyCode(string verificationCode, Nullable<int> userID)
+        {
+            var verificationCodeParameter = verificationCode != null ?
+                new ObjectParameter("VerificationCode", verificationCode) :
+                new ObjectParameter("VerificationCode", typeof(string));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginUserVerifyCode>("SP_LoginUserVerifyCode", verificationCodeParameter, userIDParameter);
+        }
+    
+        public virtual int SP_LoginUserSetPassword(Nullable<int> userID, string userPassword)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var userPasswordParameter = userPassword != null ?
+                new ObjectParameter("UserPassword", userPassword) :
+                new ObjectParameter("UserPassword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_LoginUserSetPassword", userIDParameter, userPasswordParameter);
+        }
+    
+        public virtual int sp_Category_Delete(Nullable<int> itemCategoryID)
+        {
+            var itemCategoryIDParameter = itemCategoryID.HasValue ?
+                new ObjectParameter("ItemCategoryID", itemCategoryID) :
+                new ObjectParameter("ItemCategoryID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Category_Delete", itemCategoryIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> sp_Category_InsertUpdate(Nullable<int> itemCategoryID, string itemCategoryDesc, Nullable<bool> isActive)
+        {
+            var itemCategoryIDParameter = itemCategoryID.HasValue ?
+                new ObjectParameter("ItemCategoryID", itemCategoryID) :
+                new ObjectParameter("ItemCategoryID", typeof(int));
+    
+            var itemCategoryDescParameter = itemCategoryDesc != null ?
+                new ObjectParameter("ItemCategoryDesc", itemCategoryDesc) :
+                new ObjectParameter("ItemCategoryDesc", typeof(string));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Category_InsertUpdate", itemCategoryIDParameter, itemCategoryDescParameter, isActiveParameter);
+        }
+    
+        public virtual int sp_Item_Delete(Nullable<int> itemID)
+        {
+            var itemIDParameter = itemID.HasValue ?
+                new ObjectParameter("ItemID", itemID) :
+                new ObjectParameter("ItemID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Item_Delete", itemIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> sp_Item_InsertUpdate(Nullable<int> itemID, Nullable<int> itemCategoryID, string itemName, string itemDescription, Nullable<bool> isActive, Nullable<double> itemPrice, Nullable<int> uOMTypeID, Nullable<int> supplierID, Nullable<double> maxOrderLimit, string imagePath)
+        {
+            var itemIDParameter = itemID.HasValue ?
+                new ObjectParameter("ItemID", itemID) :
+                new ObjectParameter("ItemID", typeof(int));
+    
+            var itemCategoryIDParameter = itemCategoryID.HasValue ?
+                new ObjectParameter("ItemCategoryID", itemCategoryID) :
+                new ObjectParameter("ItemCategoryID", typeof(int));
+    
+            var itemNameParameter = itemName != null ?
+                new ObjectParameter("ItemName", itemName) :
+                new ObjectParameter("ItemName", typeof(string));
+    
+            var itemDescriptionParameter = itemDescription != null ?
+                new ObjectParameter("ItemDescription", itemDescription) :
+                new ObjectParameter("ItemDescription", typeof(string));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            var itemPriceParameter = itemPrice.HasValue ?
+                new ObjectParameter("ItemPrice", itemPrice) :
+                new ObjectParameter("ItemPrice", typeof(double));
+    
+            var uOMTypeIDParameter = uOMTypeID.HasValue ?
+                new ObjectParameter("UOMTypeID", uOMTypeID) :
+                new ObjectParameter("UOMTypeID", typeof(int));
+    
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
+    
+            var maxOrderLimitParameter = maxOrderLimit.HasValue ?
+                new ObjectParameter("MaxOrderLimit", maxOrderLimit) :
+                new ObjectParameter("MaxOrderLimit", typeof(double));
+    
+            var imagePathParameter = imagePath != null ?
+                new ObjectParameter("ImagePath", imagePath) :
+                new ObjectParameter("ImagePath", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Item_InsertUpdate", itemIDParameter, itemCategoryIDParameter, itemNameParameter, itemDescriptionParameter, isActiveParameter, itemPriceParameter, uOMTypeIDParameter, supplierIDParameter, maxOrderLimitParameter, imagePathParameter);
+        }
+    
+        public virtual int sp_UOMType_Delete(Nullable<int> uOMTypeID)
+        {
+            var uOMTypeIDParameter = uOMTypeID.HasValue ?
+                new ObjectParameter("UOMTypeID", uOMTypeID) :
+                new ObjectParameter("UOMTypeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_UOMType_Delete", uOMTypeIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> sp_UOMType_InsertUpdate(Nullable<int> uOMTypeID, string uOMTypeDescription, Nullable<bool> isDecimal, Nullable<bool> isActive)
+        {
+            var uOMTypeIDParameter = uOMTypeID.HasValue ?
+                new ObjectParameter("UOMTypeID", uOMTypeID) :
+                new ObjectParameter("UOMTypeID", typeof(int));
+    
+            var uOMTypeDescriptionParameter = uOMTypeDescription != null ?
+                new ObjectParameter("UOMTypeDescription", uOMTypeDescription) :
+                new ObjectParameter("UOMTypeDescription", typeof(string));
+    
+            var isDecimalParameter = isDecimal.HasValue ?
+                new ObjectParameter("IsDecimal", isDecimal) :
+                new ObjectParameter("IsDecimal", typeof(bool));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_UOMType_InsertUpdate", uOMTypeIDParameter, uOMTypeDescriptionParameter, isDecimalParameter, isActiveParameter);
+        }
+    
+        public virtual int sp_LoginUser_Delete(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_LoginUser_Delete", userIDParameter);
+        }
+    
+        public virtual int sp_LoginUser_InsertUpdate(Nullable<int> userID, string userEmail, string userPassword, Nullable<int> currentStatusID, string verificationCode, Nullable<System.DateTime> createdOn)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var userEmailParameter = userEmail != null ?
+                new ObjectParameter("UserEmail", userEmail) :
+                new ObjectParameter("UserEmail", typeof(string));
+    
+            var userPasswordParameter = userPassword != null ?
+                new ObjectParameter("UserPassword", userPassword) :
+                new ObjectParameter("UserPassword", typeof(string));
+    
+            var currentStatusIDParameter = currentStatusID.HasValue ?
+                new ObjectParameter("CurrentStatusID", currentStatusID) :
+                new ObjectParameter("CurrentStatusID", typeof(int));
+    
+            var verificationCodeParameter = verificationCode != null ?
+                new ObjectParameter("VerificationCode", verificationCode) :
+                new ObjectParameter("VerificationCode", typeof(string));
+    
+            var createdOnParameter = createdOn.HasValue ?
+                new ObjectParameter("CreatedOn", createdOn) :
+                new ObjectParameter("CreatedOn", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_LoginUser_InsertUpdate", userIDParameter, userEmailParameter, userPasswordParameter, currentStatusIDParameter, verificationCodeParameter, createdOnParameter);
+        }
+    
+        public virtual int sp_LoginUser_UpdateStatus(Nullable<int> userID, Nullable<int> currentStatusID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var currentStatusIDParameter = currentStatusID.HasValue ?
+                new ObjectParameter("CurrentStatusID", currentStatusID) :
+                new ObjectParameter("CurrentStatusID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_LoginUser_UpdateStatus", userIDParameter, currentStatusIDParameter);
+        }
+    
+        public virtual ObjectResult<ProductsSearch> SP_Products_Search(Nullable<int> itemCategoryID, Nullable<int> supplierID, string supplierRegion, string itemName)
+        {
+            var itemCategoryIDParameter = itemCategoryID.HasValue ?
+                new ObjectParameter("ItemCategoryID", itemCategoryID) :
+                new ObjectParameter("ItemCategoryID", typeof(int));
+    
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
+    
+            var supplierRegionParameter = supplierRegion != null ?
+                new ObjectParameter("SupplierRegion", supplierRegion) :
+                new ObjectParameter("SupplierRegion", typeof(string));
+    
+            var itemNameParameter = itemName != null ?
+                new ObjectParameter("ItemName", itemName) :
+                new ObjectParameter("ItemName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProductsSearch>("SP_Products_Search", itemCategoryIDParameter, supplierIDParameter, supplierRegionParameter, itemNameParameter);
+        }
+    
+        public virtual ObjectResult<ProductsCategories> SP_Products_GetItemCategories(string supplierRegion)
+        {
+            var supplierRegionParameter = supplierRegion != null ?
+                new ObjectParameter("SupplierRegion", supplierRegion) :
+                new ObjectParameter("SupplierRegion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProductsCategories>("SP_Products_GetItemCategories", supplierRegionParameter);
+        }
+    
+        public virtual ObjectResult<string> SP_Order_GetMaxOrerNo()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SP_Order_GetMaxOrerNo");
+        }
+    
+        public virtual ObjectResult<CustomerGetByPhone> SP_Customer_GetByPhone(string customerPhone)
+        {
+            var customerPhoneParameter = customerPhone != null ?
+                new ObjectParameter("CustomerPhone", customerPhone) :
+                new ObjectParameter("CustomerPhone", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CustomerGetByPhone>("SP_Customer_GetByPhone", customerPhoneParameter);
+        }
+    
+        public virtual ObjectResult<LatestItems> SP_Products_GetLatest()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LatestItems>("SP_Products_GetLatest");
+        }
+    
+        public virtual ObjectResult<OrderVerifyCode> SP_Order_VerifyCode(string verificationCode, string orderNo)
+        {
+            var verificationCodeParameter = verificationCode != null ?
+                new ObjectParameter("VerificationCode", verificationCode) :
+                new ObjectParameter("VerificationCode", typeof(string));
+    
+            var orderNoParameter = orderNo != null ?
+                new ObjectParameter("OrderNo", orderNo) :
+                new ObjectParameter("OrderNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrderVerifyCode>("SP_Order_VerifyCode", verificationCodeParameter, orderNoParameter);
+        }
+    
+        public virtual int SP_Order_UpdateStatus(Nullable<int> currentStatuID, Nullable<int> orderID)
+        {
+            var currentStatuIDParameter = currentStatuID.HasValue ?
+                new ObjectParameter("CurrentStatuID", currentStatuID) :
+                new ObjectParameter("CurrentStatuID", typeof(int));
+    
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("OrderID", orderID) :
+                new ObjectParameter("OrderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Order_UpdateStatus", currentStatuIDParameter, orderIDParameter);
+        }
+    
+        public virtual ObjectResult<OrdersCommission> SP_Orders_Commission(Nullable<int> supplierID)
+        {
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<OrdersCommission>("SP_Orders_Commission", supplierIDParameter);
         }
     }
 }

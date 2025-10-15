@@ -3,6 +3,127 @@
   <EntityContainerMapping StorageEntityContainer="HomeFoodiesModelStoreContainer" CdmEntityContainer="HomeFoodiesEntities">
     <FunctionImportMapping FunctionImportName="sp_Supplier_Delete" FunctionName="HomeFoodiesModel.Store.sp_Supplier_Delete" />
     <FunctionImportMapping FunctionImportName="sp_Supplier_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_Supplier_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="SP_LoginUserGetLogin" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_Login">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.LoginUserGetLogin">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_LoginUserVerifyCode" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_VerifyCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.LoginUserVerifyCode">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_LoginUserSetPassword" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_SetPassword" />
+    <FunctionImportMapping FunctionImportName="sp_Category_Delete" FunctionName="HomeFoodiesModel.Store.sp_Category_Delete" />
+    <FunctionImportMapping FunctionImportName="sp_Category_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_Category_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="sp_Item_Delete" FunctionName="HomeFoodiesModel.Store.sp_Item_Delete" />
+    <FunctionImportMapping FunctionImportName="sp_Item_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_Item_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="sp_UOMType_Delete" FunctionName="HomeFoodiesModel.Store.sp_UOMType_Delete" />
+    <FunctionImportMapping FunctionImportName="sp_UOMType_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_UOMType_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="sp_LoginUser_Delete" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_Delete" />
+    <FunctionImportMapping FunctionImportName="sp_LoginUser_InsertUpdate" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="sp_LoginUser_UpdateStatus" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_UpdateStatus" />
+    <FunctionImportMapping FunctionImportName="SP_Products_Search" FunctionName="HomeFoodiesModel.Store.sp_Products_Search">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.ProductsSearch">
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+          <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+          <ScalarProperty Name="MaxOrderLimit" ColumnName="MaxOrderLimit" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
+          <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+          <ScalarProperty Name="ItemCategoryDesc" ColumnName="ItemCategoryDesc" />
+          <ScalarProperty Name="UOMTypeDescription" ColumnName="UOMTypeDescription" />
+          <ScalarProperty Name="IsDecimal" ColumnName="IsDecimal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Products_GetItemCategories" FunctionName="HomeFoodiesModel.Store.sp_Products_GetItemCategories">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.ProductsCategories">
+          <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+          <ScalarProperty Name="ItemCategoryDesc" ColumnName="ItemCategoryDesc" />
+          <ScalarProperty Name="SupplierRegion" ColumnName="SupplierRegion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Order_GetMaxOrerNo" FunctionName="HomeFoodiesModel.Store.sp_Order_GetMaxOrerNo" />
+    <FunctionImportMapping FunctionImportName="SP_Customer_GetByPhone" FunctionName="HomeFoodiesModel.Store.sp_Customer_GetByPhone">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.CustomerGetByPhone">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CutomerName" ColumnName="CutomerName" />
+          <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Products_GetLatest" FunctionName="HomeFoodiesModel.Store.sp_Products_GetLatest">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.LatestItems">
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+          <ScalarProperty Name="ItemCategoryID" ColumnName="ItemCategoryID" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+          <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
+          <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+          <ScalarProperty Name="MaxOrderLimit" ColumnName="MaxOrderLimit" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Order_VerifyCode" FunctionName="HomeFoodiesModel.Store.sp_Order_VerifyCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.OrderVerifyCode">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="TotalOrderAmount" ColumnName="TotalOrderAmount" />
+          <ScalarProperty Name="CommisionPercentage" ColumnName="CommisionPercentage" />
+          <ScalarProperty Name="IsCustomerConfirmed" ColumnName="IsCustomerConfirmed" />
+          <ScalarProperty Name="IsSupplierConfirmed" ColumnName="IsSupplierConfirmed" />
+          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Order_UpdateStatus" FunctionName="HomeFoodiesModel.Store.sp_Order_UpdateStatus" />
+    <FunctionImportMapping FunctionImportName="SP_Orders_Commission" FunctionName="HomeFoodiesModel.Store.sp_Orders_Commission">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HomeFoodiesModel.OrdersCommission">
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="CommisionPercentage" ColumnName="CommisionPercentage" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="TotalOrderAmount" ColumnName="TotalOrderAmount" />
+          <ScalarProperty Name="SellerCost" ColumnName="SellerCost" />
+          <ScalarProperty Name="CompanyCommission" ColumnName="CompanyCommission" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="HomeFoodiesModel.Category">
         <MappingFragment StoreEntitySet="Category">
@@ -25,6 +146,7 @@
     <EntitySetMapping Name="Items">
       <EntityTypeMapping TypeName="HomeFoodiesModel.Item">
         <MappingFragment StoreEntitySet="Item">
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
           <ScalarProperty Name="MaxOrderLimit" ColumnName="MaxOrderLimit" />
           <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
           <ScalarProperty Name="UOMTypeID" ColumnName="UOMTypeID" />
@@ -99,6 +221,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="HomeFoodiesModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="UOMTypes">
       <EntityTypeMapping TypeName="HomeFoodiesModel.UOMType">
         <MappingFragment StoreEntitySet="UOMType">
@@ -109,18 +242,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="SP_LoginUserGetLogin" FunctionName="HomeFoodiesModel.Store.sp_LoginUser_Login">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="HomeFoodiesModel.LoginUserGetLogin">
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
-          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
-          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>
